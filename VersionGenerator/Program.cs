@@ -27,7 +27,7 @@ namespace MASES.CommonTools.VersionGenerator
         static Version DeployVersion = new Version(1, 0, 0, 0);
         static string VersionFilename = "ComponentVersion.cs";
         static string VersionFilenameCpp = "ComponentVersion.h";
-        const string LicensedProductVersionTemplate = "ProductVersion = ";
+        const string LicensedProductVersionTemplate = "ProductCurrentVersion = ";
 
         static void Main(string[] args)
         {
