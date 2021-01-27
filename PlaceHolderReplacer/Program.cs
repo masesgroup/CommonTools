@@ -63,6 +63,7 @@ namespace MASES.CommonTools.PlaceHolderReplacer
                 var fileContent = File.ReadAllText(args[1]);
                 fileContent = fileContent.Replace(LicenseVersionPlaceHolder, DeployVersion.ToString());
                 File.WriteAllText(args[1], fileContent);
+                Console.WriteLine(DeployVersion.ToString());
             }
             catch (Exception ex)
             {
