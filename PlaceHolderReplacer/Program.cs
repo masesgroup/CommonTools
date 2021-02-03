@@ -60,10 +60,12 @@ namespace MASES.CommonTools.PlaceHolderReplacer
                     }
                 }
 
+                var deployVersion = string.Format("{0}.{1}.{2}", DeployVersion.Major, DeployVersion.Minor, DeployVersion.Build);
+
                 var fileContent = File.ReadAllText(args[1]);
-                fileContent = fileContent.Replace(LicenseVersionPlaceHolder, DeployVersion.ToString());
+                fileContent = fileContent.Replace(LicenseVersionPlaceHolder, deployVersion);
                 File.WriteAllText(args[1], fileContent);
-                Console.WriteLine("{0}.{1}.{2}", DeployVersion.Major, DeployVersion.Minor, DeployVersion.Build);
+                Console.WriteLine(deployVersion);
             }
             catch (Exception ex)
             {
