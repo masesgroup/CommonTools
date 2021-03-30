@@ -33,7 +33,7 @@ namespace MASES.CommonTools.PlaceHolderReplacer
             {
                 if (args.Length == 0)
                 {
-                    Console.WriteLine("PlaceHolderReplacer <path-to-Version.cs or product-version> <file-to-update>");
+                    Console.WriteLine("PlaceHolderReplacer <path-to-Version.cs or product-version> <file-to-update> <version-trailer>");
                     Environment.Exit(1);
                 }
 
@@ -62,8 +62,14 @@ namespace MASES.CommonTools.PlaceHolderReplacer
 
                 var deployVersion = string.Format("{0}.{1}.{2}", DeployVersion.Major, DeployVersion.Minor, DeployVersion.Build);
 
+                string versionToPut = deployVersion;
+                if (args.Length == 3)
+                {
+                    versionToPut += args[2];
+                }
+
                 var fileContent = File.ReadAllText(args[1]);
-                fileContent = fileContent.Replace(LicenseVersionPlaceHolder, deployVersion);
+                fileContent = fileContent.Replace(LicenseVersionPlaceHolder, versionToPut);
                 File.WriteAllText(args[1], fileContent);
                 Console.WriteLine(deployVersion);
             }
