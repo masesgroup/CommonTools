@@ -1,5 +1,5 @@
 /*
-*  Copyright 2021 MASES s.r.l.
+*  Copyright 2022 MASES s.r.l.
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 static class MASESVersionInfo
 {
     public const string ProductDescription = "MASES Group - Common Tools";
-    public const string ProductCopyright = "Copyright © MASES s.r.l. 2021";
+    public const string ProductCopyright = "Copyright © MASES s.r.l. 2022";
     public const string Company = "MASES s.r.l.";
     public const string Trademark = "MASES s.r.l.";
     public const string ProductCurrentMajorVersion = "1.0.0.0";

@@ -1,5 +1,5 @@
 /*
-*  Copyright 2021 MASES s.r.l.
+*  Copyright 2022 MASES s.r.l.
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 */
 
 #define PRODUCTDESCRIPTION "MASES Group - Common Tools"
-#define PRODUCTCOPYRIGHT "Copyright © MASES s.r.l. 2021"
+#define PRODUCTCOPYRIGHT "Copyright © MASES s.r.l. 2022"
 #define COMPANY "MASES s.r.l."
 #define TRADEMARK "MASES s.r.l."
 #define PRODUCTCURRENTMAJORVERSION "1.0.0.0"
