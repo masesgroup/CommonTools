@@ -17,7 +17,7 @@ foreach ($url in $data.urlset.url ) {
             $lastMod = @(git log -1 --pretty="format:%cI" $fileName) | Out-String
             if ($lastMod -ne $null)
             {
-                $url.lastmod = $lastMod.ToString()
+                $url.lastmod = $lastMod.ToString().Trim()
             }
         }
     }
