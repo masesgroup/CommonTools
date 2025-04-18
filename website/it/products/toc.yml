@@ -1,0 +1,10 @@
+dropdown: true
+items:
+- name: Introduzione
+  href: https://masesgroup.com/it/products/index.html
+- name: Sinapse
+  href: https://masesgroup.com/it/products/sinapse.html
+- name: JCOBridge
+  href: https://masesgroup.com/it/products/jcobridge.html
+- name: KNet for OPC
+  href: https://masesgroup.com/it/products/knetopc.html
