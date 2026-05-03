@@ -151,12 +151,15 @@ jobs:
           $src = "$env:VCPKG_ROOT/installed/${{ matrix.triplet }}"
           Copy-Item "$src/lib/libssl.lib"    $dst
           Copy-Item "$src/lib/libcrypto.lib" $dst
-          # Header per-platform — ogni arch ha gli stessi header, basta una copia
           $inc = "third_party/openssl/include/${{ matrix.platform }}/openssl"
           if (-not (Test-Path $inc)) {
             New-Item -ItemType Directory -Force "third_party/openssl/include/${{ matrix.platform }}"
             Copy-Item "$src/include/openssl" "third_party/openssl/include/${{ matrix.platform }}/" -Recurse -Force
           }
+          # configuration.h arch-specific
+          $archInc = "third_party/openssl/include/${{ matrix.platform }}/${{ matrix.arch }}/openssl"
+          New-Item -ItemType Directory -Force $archInc
+          Copy-Item "$src/include/openssl/configuration.h" "$archInc/" -Force
 
       - name: Collect libs (Linux/macOS)
         if: matrix.platform == 'linux' || matrix.platform == 'osx'
@@ -167,12 +170,15 @@ jobs:
           SRC="$VCPKG_ROOT/installed/${{ matrix.triplet }}"
           cp "$SRC/lib/libssl.a"    "$DST/"
           cp "$SRC/lib/libcrypto.a" "$DST/"
-          # Header per-platform — ogni arch ha gli stessi header, basta una copia
           INC="third_party/openssl/include/${{ matrix.platform }}/openssl"
           if [ ! -d "$INC" ]; then
             mkdir -p "third_party/openssl/include/${{ matrix.platform }}"
             cp -r "$SRC/include/openssl" "third_party/openssl/include/${{ matrix.platform }}/"
           fi
+          # configuration.h arch-specific
+          ARCH_INC="third_party/openssl/include/${{ matrix.platform }}/${{ matrix.arch }}/openssl"
+          mkdir -p "$ARCH_INC"
+          cp "$SRC/include/openssl/configuration.h" "$ARCH_INC/"
 
       - name: Upload partial artifact
         uses: actions/upload-artifact@v7
