@@ -125,7 +125,7 @@ jobs:
 
       # Upload intermedio — ogni job salva la sua fetta
       - name: Upload partial artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: openssl-${{ matrix.platform }}-${{ matrix.arch }}
           path: third_party/openssl/
