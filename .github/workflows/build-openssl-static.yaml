@@ -110,7 +110,7 @@ jobs:
           sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
 
       - name: Build OpenSSL (Windows)
-        if: matrix.platform == 'windows'
+        if: matrix.platform == 'windows' || matrix.platform == 'windows-md'
         shell: pwsh
         run: |
           vcpkg install openssl:${{ matrix.triplet }} `
