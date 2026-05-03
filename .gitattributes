@@ -1,0 +1,9 @@
+# Binary files — no line ending conversion
+third_party/openssl/**/*.lib    binary
+third_party/openssl/**/*.a      binary
+
+# Headers — preserve line endings as-is
+third_party/openssl/**/*.h      text eol=lf
+
+# Workflow
+.github/**/*.yml                text eol=lf

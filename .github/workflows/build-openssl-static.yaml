@@ -39,6 +39,7 @@ jobs:
             triplet: arm64-windows-static
             arch: arm64
             platform: windows
+          # Linux
           - os: ubuntu-latest
             triplet: x64-linux
             arch: x64
@@ -51,6 +52,7 @@ jobs:
             triplet: arm-linux
             arch: arm
             platform: linux
+          # macOS
           - os: macos-26
             triplet: arm64-osx
             arch: arm64
@@ -83,15 +85,14 @@ jobs:
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgGitCommitId: ${{ steps.vcpkg-commit.outputs.sha }}
-        env:
-          VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
 
+      # Overlay triplet — solo Linux e macOS, il nome deve corrispondere al triplet
       - name: Create static overlay triplets
-        if: matrix.platform != 'windows'
+        if: matrix.platform == 'linux' || matrix.platform == 'osx'
         shell: bash
         run: |
           mkdir -p ${{ github.workspace }}/triplets
-          cat > ${{ github.workspace }}/triplets/${{ matrix.triplet }}-static.cmake << 'EOF'
+          cat > ${{ github.workspace }}/triplets/${{ matrix.triplet }}.cmake << 'EOF'
           set(VCPKG_TARGET_ARCHITECTURE ${{ matrix.arch }})
           set(VCPKG_CRT_LINKAGE dynamic)
           set(VCPKG_LIBRARY_LINKAGE static)
@@ -109,14 +110,22 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
 
-      - name: Build OpenSSL (Windows)
+      - name: Build OpenSSL (Windows / Windows-md)
         if: matrix.platform == 'windows' || matrix.platform == 'windows-md'
         shell: pwsh
         run: |
           vcpkg install openssl:${{ matrix.triplet }} `
             --x-buildtrees-root=${{ runner.temp }}/vcpkg-buildtrees
 
-      - name: Build OpenSSL (macOS x64)
+      - name: Build OpenSSL (Linux)
+        if: matrix.platform == 'linux'
+        shell: bash
+        run: |
+          vcpkg install openssl:${{ matrix.triplet }} \
+            --overlay-triplets=${{ github.workspace }}/triplets \
+            --x-buildtrees-root=${{ runner.temp }}/vcpkg-buildtrees
+
+      - name: Build OpenSSL (macOS)
         if: matrix.platform == 'osx'
         shell: bash
         env:
@@ -126,15 +135,7 @@ jobs:
             --overlay-triplets=${{ github.workspace }}/triplets \
             --x-buildtrees-root=${{ runner.temp }}/vcpkg-buildtrees
 
-      - name: Build OpenSSL (Linux/macOS)
-        if: matrix.platform == 'linux'
-        shell: bash
-        run: |
-          vcpkg install openssl:${{ matrix.triplet }} \
-            --overlay-triplets=${{ github.workspace }}/triplets \
-            --x-buildtrees-root=${{ runner.temp }}/vcpkg-buildtrees
-
-      - name: Collect libs (Windows)
+      - name: Collect libs (Windows / Windows-md)
         if: matrix.platform == 'windows' || matrix.platform == 'windows-md'
         shell: pwsh
         run: |
@@ -143,10 +144,12 @@ jobs:
           $src = "$env:VCPKG_ROOT/installed/${{ matrix.triplet }}"
           Copy-Item "$src/lib/libssl.lib"    $dst
           Copy-Item "$src/lib/libcrypto.lib" $dst
-          # Header per-platform
-          $inc = "third_party/openssl/include/${{ matrix.platform }}"
-          New-Item -ItemType Directory -Force $inc
-          Copy-Item "$src/include/openssl" "$inc/" -Recurse -Force
+          # Header per-platform — ogni arch ha gli stessi header, basta una copia
+          $inc = "third_party/openssl/include/${{ matrix.platform }}/openssl"
+          if (-not (Test-Path $inc)) {
+            New-Item -ItemType Directory -Force "third_party/openssl/include/${{ matrix.platform }}"
+            Copy-Item "$src/include/openssl" "third_party/openssl/include/${{ matrix.platform }}/" -Recurse -Force
+          }
 
       - name: Collect libs (Linux/macOS)
         if: matrix.platform == 'linux' || matrix.platform == 'osx'
@@ -157,18 +160,20 @@ jobs:
           SRC="$VCPKG_ROOT/installed/${{ matrix.triplet }}"
           cp "$SRC/lib/libssl.a"    "$DST/"
           cp "$SRC/lib/libcrypto.a" "$DST/"
-          # Header per-platform
-          INC="third_party/openssl/include/${{ matrix.platform }}"
-          mkdir -p "$INC"
-          cp -r "$SRC/include/openssl" "$INC/"
+          # Header per-platform — ogni arch ha gli stessi header, basta una copia
+          INC="third_party/openssl/include/${{ matrix.platform }}/openssl"
+          if [ ! -d "$INC" ]; then
+            mkdir -p "third_party/openssl/include/${{ matrix.platform }}"
+            cp -r "$SRC/include/openssl" "third_party/openssl/include/${{ matrix.platform }}/"
+          fi
 
-      # Upload intermedio — ogni job salva la sua fetta
       - name: Upload partial artifact
         uses: actions/upload-artifact@v7
         with:
           name: openssl-${{ matrix.platform }}-${{ matrix.arch }}
           path: third_party/openssl/
           retention-days: 1
+          compression-level: 9
 
   open-pr:
     needs: build
@@ -184,7 +189,29 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           path: third_party/openssl/
-          merge-multiple: true 
+          merge-multiple: true
+
+      - name: Verify headers integrity
+        shell: bash
+        run: |
+          ERRORS=0
+          for platform in windows windows-md linux osx; do
+            DIR="third_party/openssl/include/$platform/openssl"
+            if [ -d "$DIR" ]; then
+              while IFS= read -r f; do
+                LAST=$(tail -1 "$f" | tr -d '[:space:]')
+                if [[ "$LAST" != *"#endif"* ]]; then
+                  echo "TRUNCATED: $f (last line: '$LAST')"
+                  ERRORS=$((ERRORS + 1))
+                fi
+              done < <(find "$DIR" -name "*.h")
+            fi
+          done
+          if [ $ERRORS -gt 0 ]; then
+            echo "Found $ERRORS truncated header files — aborting PR"
+            exit 1
+          fi
+          echo "All headers OK"
 
       - name: Open PR
         uses: peter-evans/create-pull-request@v8
@@ -199,7 +226,8 @@ jobs:
 
             | Platform | Architectures |
             |---|---|
-            | Windows | x86, x64, arm64 |
+            | Windows (static) | x86, x64, arm64 |
+            | Windows (static-md) | x86, x64 |
             | Linux | x64, arm, arm64 |
             | macOS | x64, arm64 |
           labels: dependencies
