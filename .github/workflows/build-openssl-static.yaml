@@ -72,10 +72,17 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
+      - name: Get latest vcpkg commit
+        id: vcpkg-commit
+        shell: bash
+        run: |
+          COMMIT=$(git ls-remote https://github.com/microsoft/vcpkg.git HEAD | cut -f1)
+          echo "sha=$COMMIT" >> $GITHUB_OUTPUT
+
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgGitCommitId: 'a42af01b72c28a8e1d7b48107b33e4f286a55ef6'
+          vcpkgGitCommitId: ${{ steps.vcpkg-commit.outputs.sha }}
         env:
           VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
 
