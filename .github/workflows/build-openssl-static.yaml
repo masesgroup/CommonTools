@@ -180,19 +180,11 @@ jobs:
           mkdir -p "$ARCH_INC"
           cp "$SRC/include/openssl/configuration.h" "$ARCH_INC/"
 
-      - name: Upload libs artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload partial artifact
+        uses: actions/upload-artifact@v8
         with:
-          name: openssl-libs-${{ matrix.platform }}-${{ matrix.arch }}
-          path: third_party/openssl/${{ matrix.platform }}/
-          retention-days: 1
-          compression-level: 9
-
-      - name: Upload headers artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: openssl-headers-${{ matrix.platform }}
-          path: third_party/openssl/include/
+          name: openssl-${{ matrix.platform }}-${{ matrix.arch }}
+          path: third_party/openssl/
           retention-days: 1
           compression-level: 9
 
