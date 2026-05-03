@@ -24,3 +24,6 @@
 #define OSSL_ENCODER_R_MISSING_GET_PARAMS 102
 
 #endif
+GET_PARAMS 102
+
+#endif

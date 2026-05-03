@@ -856,6 +856,23 @@ char *BIO_ADDR_path_string(const BIO_ADDR *ap);
 const BIO_ADDRINFO *BIO_ADDRINFO_next(const BIO_ADDRINFO *bai);
 int BIO_ADDRINFO_family(const BIO_ADDRINFO *bai);
 int BIO_ADDRINFO_socktype(const BIO_ADDRINFO *bai);
+int BIO_ADDRINFO_protocol(const BIO_ADDRINFBIO_ADDR_new(void);
+int BIO_ADDR_copy(BIO_ADDR *dst, const BIO_ADDR *src);
+BIO_ADDR *BIO_ADDR_dup(const BIO_ADDR *ap);
+int BIO_ADDR_rawmake(BIO_ADDR *ap, int family,
+    const void *where, size_t wherelen, unsigned short port);
+void BIO_ADDR_free(BIO_ADDR *);
+void BIO_ADDR_clear(BIO_ADDR *ap);
+int BIO_ADDR_family(const BIO_ADDR *ap);
+int BIO_ADDR_rawaddress(const BIO_ADDR *ap, void *p, size_t *l);
+unsigned short BIO_ADDR_rawport(const BIO_ADDR *ap);
+char *BIO_ADDR_hostname_string(const BIO_ADDR *ap, int numeric);
+char *BIO_ADDR_service_string(const BIO_ADDR *ap, int numeric);
+char *BIO_ADDR_path_string(const BIO_ADDR *ap);
+
+const BIO_ADDRINFO *BIO_ADDRINFO_next(const BIO_ADDRINFO *bai);
+int BIO_ADDRINFO_family(const BIO_ADDRINFO *bai);
+int BIO_ADDRINFO_socktype(const BIO_ADDRINFO *bai);
 int BIO_ADDRINFO_protocol(const BIO_ADDRINFO *bai);
 const BIO_ADDR *BIO_ADDRINFO_address(const BIO_ADDRINFO *bai);
 void BIO_ADDRINFO_free(BIO_ADDRINFO *bai);
@@ -889,34 +906,7 @@ int BIO_set_tcp_ndelay(int sock, int turn_on);
 #ifndef OPENSSL_NO_DEPRECATED_1_1_0
 OSSL_DEPRECATEDIN_1_1_0 struct hostent *BIO_gethostbyname(const char *name);
 OSSL_DEPRECATEDIN_1_1_0 int BIO_get_port(const char *str, unsigned short *port_ptr);
-OSSL_DEPRECATEDIN_1_1_0 int BIO_get_host_ip(const char *str, unsigned char *ip);
-OSSL_DEPRECATEDIN_1_1_0 int BIO_get_accept_socket(char *host_port, int mode);
-OSSL_DEPRECATEDIN_1_1_0 int BIO_accept(int sock, char **ip_port);
-#endif
-
-union BIO_sock_info_u {
-    BIO_ADDR *addr;
-};
-enum BIO_sock_info_type {
-    BIO_SOCK_INFO_ADDRESS
-};
-int BIO_sock_info(int sock,
-    enum BIO_sock_info_type type, union BIO_sock_info_u *info);
-
-#define BIO_SOCK_REUSEADDR 0x01
-#define BIO_SOCK_V6_ONLY 0x02
-#define BIO_SOCK_KEEPALIVE 0x04
-#define BIO_SOCK_NONBLOCK 0x08
-#define BIO_SOCK_NODELAY 0x10
-#define BIO_SOCK_TFO 0x20
-
-int BIO_socket(int domain, int socktype, int protocol, int options);
-int BIO_connect(int sock, const BIO_ADDR *addr, int options);
-int BIO_bind(int sock, const BIO_ADDR *addr, int options);
-int BIO_listen(int sock, const BIO_ADDR *addr, int options);
-int BIO_accept_ex(int accept_sock, BIO_ADDR *addr, int options);
-int BIO_closesocket(int sock);
-
+OSSL_DEPRECATEDIN_1_1_0 int BIO_get_host_ip(const char *str, unsig
 BIO *BIO_new_socket(int sock, int close_flag);
 BIO *BIO_new_connect(const char *host_port);
 BIO *BIO_new_accept(const char *host_port);
@@ -1005,6 +995,28 @@ OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_write(const BIO_METHOD *biom))(BIO *, c
 OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_write_ex(const BIO_METHOD *biom))(BIO *, const char *,
     size_t, size_t *);
 OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_sendmmsg(const BIO_METHOD *biom))(BIO *, BIO_MSG *,
+    size_t, size_t,
+    uint64_t, size_t *);
+OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_read(const BIO_METHOD *biom))(BIO *, char *, int);
+OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_read_ex(const BIO_METHOD *biom))(BIO *, char *,
+    size_t, size_t *);
+OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_recvmmsg(const BIO_METHOD *biom))(BIO *, BIO_MSG *,
+    size_t, size_t,
+    uint64_t, size_t *);
+OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_puts(const BIO_METHOD *biom))(BIO *, const char *);
+OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_gets(const BIO_METHOD *biom))(BIO *, char *, int);
+OSSL_DEPRECATEDIN_3_5 long (*BIO_meth_get_ctrl(const BIO_METHOD *biom))(BIO *, int,
+    long, void *);
+OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_create(const BIO_METHOD *bion))(BIO *);
+OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_destroy(const BIO_METHOD *biom))(BIO *);
+OSSL_DEPRECATEDIN_3_5 long (*BIO_meth_get_callback_ctrl(const BIO_METHOD *biom))(BIO *, int,
+    BIO_info_cb *);
+#endif
+#ifdef __cplusplus
+}
+#endif
+#endif
+, BIO_MSG *,
     size_t, size_t,
     uint64_t, size_t *);
 OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_read(const BIO_METHOD *biom))(BIO *, char *, int);

@@ -460,6 +460,22 @@ typedef const ASN1_ITEM *ASN1_ITEM_EXP(void);
 
 #define ASN1_STRFLGS_ESC_QUOTE 8
 
+/* These three flags are internal use onlyLGS_ESC_2253 1
+#define ASN1_STRFLGS_ESC_CTRL 2
+#define ASN1_STRFLGS_ESC_MSB 4
+
+/* Lower 8 bits are reserved as an output type specifier */
+#define ASN1_DTFLGS_TYPE_MASK 0x0FUL
+#define ASN1_DTFLGS_RFC822 0x00UL
+#define ASN1_DTFLGS_ISO8601 0x01UL
+
+/*
+ * This flag determines how we do escaping: normally RC2253 backslash only,
+ * set this to use backslash and quote.
+ */
+
+#define ASN1_STRFLGS_ESC_QUOTE 8
+
 /* These three flags are internal use only. */
 
 /* Character is a valid PrintableString character */

@@ -382,6 +382,15 @@ __owur int SCT_validate(SCT *sct, const CT_POLICY_EVAL_CTX *ctx);
  * Validates the given list of SCTs with the provided context.
  * Sets the "validation_status" field of each SCT.
  * Returns 1 if there are no invalid SCTs and all signatures verify.
+ * Returns 0 if at least one SCT is invalid or could not be veould not be verified.
+ * Returns -1 if an error occurs.
+ */
+__owur int SCT_validate(SCT *sct, const CT_POLICY_EVAL_CTX *ctx);
+
+/*
+ * Validates the given list of SCTs with the provided context.
+ * Sets the "validation_status" field of each SCT.
+ * Returns 1 if there are no invalid SCTs and all signatures verify.
  * Returns 0 if at least one SCT is invalid or could not be verified.
  * Returns a negative integer if an error occurs.
  */
@@ -448,18 +457,7 @@ STACK_OF(SCT) *d2i_SCT_LIST(STACK_OF(SCT) **a, const unsigned char **pp,
 
 /*
  * Serialize (to TLS format) an |sct| and write it to |out|.
- * If |out| is null, no SCT will be output but the length will still be returned.
- * If |out| points to a null pointer, a string will be allocated to hold the
- * TLS-format SCT. It is the responsibility of the caller to free it.
- * If |out| points to an allocated string, the TLS-format SCT will be written
- * to it.
- * The length of the SCT in TLS format will be returned.
- */
-__owur int i2o_SCT(const SCT *sct, unsigned char **out);
-
-/*
- * Parses an SCT in TLS format and returns it.
- * If |psct| is not null, it will end up pointing to the parsed SCT. If it
+ * If |out| is null, no SCT will be output but the length will still be reup pointing to the parsed SCT. If it
  * already points to a non-null pointer, the pointer will be free'd.
  * |in| should be a pointer to a string containing the TLS-format SCT.
  * |in| will be advanced to the end of the SCT if parsing succeeds.
@@ -550,6 +548,29 @@ void CTLOG_STORE_free(CTLOG_STORE *store);
 /*
  * Finds a CT log in the store based on its log ID.
  * Returns the CT log, or NULL if no match is found.
+ */
+const CTLOG *CTLOG_STORE_get0_log_by_id(const CTLOG_STORE *store,
+    const uint8_t *log_id,
+    size_t log_id_len);
+
+/*
+ * Loads a CT log list into a |store| from a |file|.
+ * Returns 1 if loading is successful, or 0 otherwise.
+ */
+__owur int CTLOG_STORE_load_file(CTLOG_STORE *store, const char *file);
+
+/*
+ * Loads the default CT log list into a |store|.
+ * Returns 1 if loading is successful, or 0 otherwise.
+ */
+__owur int CTLOG_STORE_load_default_file(CTLOG_STORE *store);
+
+#ifdef __cplusplus
+}
+#endif
+#endif
+#endif
+LL if no match is found.
  */
 const CTLOG *CTLOG_STORE_get0_log_by_id(const CTLOG_STORE *store,
     const uint8_t *log_id,

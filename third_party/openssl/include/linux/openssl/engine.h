@@ -120,8 +120,7 @@ extern "C" {
  */
 #define ENGINE_CMD_FLAG_NO_INPUT (unsigned int)0x0004
 /*
- * Indicates that the control command is internal. This control command won't
- * be shown in any output, and is only usable through the ENGINE_ctrl_cmd()
+ * Indicates that the control()
  * function.
  */
 #define ENGINE_CMD_FLAG_INTERNAL (unsigned int)0x0008
@@ -280,6 +279,10 @@ typedef int (*ENGINE_SSL_CLIENT_CERT_PTR)(ENGINE *, SSL *ssl,
     void *callback_data);
 /*-
  * These callback types are for an ENGINE's handler for cipher and digest logic.
+ * These handlers have these prototypes;
+ *   int foo(ENGINE *e, const EVP_CIPHER **cipher, const int **nids, int nid);
+ *   int foo(ENGINE *e, const EVP_MD **digest, const int **nids, int nid);
+ * Looking at how to implement these handlers in the case of cipher support, t logic.
  * These handlers have these prototypes;
  *   int foo(ENGINE *e, const EVP_CIPHER **cipher, const int **nids, int nid);
  *   int foo(ENGINE *e, const EVP_MD **digest, const int **nids, int nid);

@@ -337,3 +337,22 @@ OPENSSL_load_u64_be(uint64_t *val, const unsigned char *in)
 #undef OSSL_LE64TOH
 
 #endif
+<< 32) | (b5 << 40) | (b6 << 48) | (b7 << 56);
+    return in;
+#endif
+}
+
+#undef OSSL_HTOBE16
+#undef OSSL_HTOBE32
+#undef OSSL_HTOBE64
+#undef OSSL_BE16TOH
+#undef OSSL_BE32TOH
+#undef OSSL_BE64TOH
+#undef OSSL_HTOLE16
+#undef OSSL_HTOLE32
+#undef OSSL_HTOLE64
+#undef OSSL_LE16TOH
+#undef OSSL_LE32TOH
+#undef OSSL_LE64TOH
+
+#endif

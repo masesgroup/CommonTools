@@ -233,3 +233,15 @@ typedef int(OSSL_PASSPHRASE_CALLBACK)(char *pass, size_t pass_size,
 #endif
 
 #endif
+ function above, but adds a
+ * result parameter.
+ */
+typedef int(OSSL_PASSPHRASE_CALLBACK)(char *pass, size_t pass_size,
+    size_t *pass_len,
+    const OSSL_PARAM params[], void *arg);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

@@ -217,3 +217,13 @@ void OPENSSL_load_builtin_modules(void);
 }
 #endif
 #endif
+nt CONF_parse_list(const char *list, int sep, int nospc,
+    int (*list_cb)(const char *elem, int len, void *usr),
+    void *arg);
+
+void OPENSSL_load_builtin_modules(void);
+
+#ifdef __cplusplus
+}
+#endif
+#endif

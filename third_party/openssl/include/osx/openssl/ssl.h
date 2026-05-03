@@ -2945,3 +2945,70 @@ int SSL_set_quic_tls_early_data_enabled(SSL *s, int enabled);
 }
 #endif
 #endif
+ON_get0_ticket_appdata(SSL_SESSION *ss, void **data, size_t *len);
+
+typedef unsigned int (*DTLS_timer_cb)(SSL *s, unsigned int timer_us);
+
+void DTLS_set_timer_cb(SSL *s, DTLS_timer_cb cb);
+
+typedef int (*SSL_allow_early_data_cb_fn)(SSL *s, void *arg);
+void SSL_CTX_set_allow_early_data_cb(SSL_CTX *ctx,
+    SSL_allow_early_data_cb_fn cb,
+    void *arg);
+void SSL_set_allow_early_data_cb(SSL *s,
+    SSL_allow_early_data_cb_fn cb,
+    void *arg);
+
+/* store the default cipher strings inside the library */
+const char *OSSL_default_cipher_list(void);
+const char *OSSL_default_ciphersuites(void);
+
+/* RFC8879 Certificate compression APIs */
+
+int SSL_CTX_compress_certs(SSL_CTX *ctx, int alg);
+int SSL_compress_certs(SSL *ssl, int alg);
+
+int SSL_CTX_set1_cert_comp_preference(SSL_CTX *ctx, int *algs, size_t len);
+int SSL_set1_cert_comp_preference(SSL *ssl, int *algs, size_t len);
+
+int SSL_CTX_set1_compressed_cert(SSL_CTX *ctx, int algorithm, unsigned char *comp_data,
+    size_t comp_length, size_t orig_length);
+int SSL_set1_compressed_cert(SSL *ssl, int algorithm, unsigned char *comp_data,
+    size_t comp_length, size_t orig_length);
+size_t SSL_CTX_get1_compressed_cert(SSL_CTX *ctx, int alg, unsigned char **data, size_t *orig_len);
+size_t SSL_get1_compressed_cert(SSL *ssl, int alg, unsigned char **data, size_t *orig_len);
+
+__owur int SSL_add_expected_rpk(SSL *s, EVP_PKEY *rpk);
+__owur EVP_PKEY *SSL_get0_peer_rpk(const SSL *s);
+__owur EVP_PKEY *SSL_SESSION_get0_peer_rpk(SSL_SESSION *s);
+__owur int SSL_get_negotiated_client_cert_type(const SSL *s);
+__owur int SSL_get_negotiated_server_cert_type(const SSL *s);
+
+__owur int SSL_set1_client_cert_type(SSL *s, const unsigned char *val, size_t len);
+__owur int SSL_set1_server_cert_type(SSL *s, const unsigned char *val, size_t len);
+__owur int SSL_CTX_set1_client_cert_type(SSL_CTX *ctx, const unsigned char *val, size_t len);
+__owur int SSL_CTX_set1_server_cert_type(SSL_CTX *ctx, const unsigned char *val, size_t len);
+__owur int SSL_get0_client_cert_type(const SSL *s, unsigned char **t, size_t *len);
+__owur int SSL_get0_server_cert_type(const SSL *s, unsigned char **t, size_t *len);
+__owur int SSL_CTX_get0_client_cert_type(const SSL_CTX *ctx, unsigned char **t, size_t *len);
+__owur int SSL_CTX_get0_server_cert_type(const SSL_CTX *s, unsigned char **t, size_t *len);
+
+/*
+ * Protection level. For <= TLSv1.2 only "NONE" and "APPLICATION" are used.
+ */
+#define OSSL_RECORD_PROTECTION_LEVEL_NONE 0
+#define OSSL_RECORD_PROTECTION_LEVEL_EARLY 1
+#define OSSL_RECORD_PROTECTION_LEVEL_HANDSHAKE 2
+#define OSSL_RECORD_PROTECTION_LEVEL_APPLICATION 3
+
+int SSL_set_quic_tls_cbs(SSL *s, const OSSL_DISPATCH *qtdis, void *arg);
+int SSL_set_quic_tls_transport_params(SSL *s,
+    const unsigned char *params,
+    size_t params_len);
+
+int SSL_set_quic_tls_early_data_enabled(SSL *s, int enabled);
+
+#ifdef __cplusplus
+}
+#endif
+#endif

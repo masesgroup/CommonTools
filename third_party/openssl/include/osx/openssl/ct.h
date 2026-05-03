@@ -572,3 +572,26 @@ __owur int CTLOG_STORE_load_default_file(CTLOG_STORE *store);
 #endif
 #endif
 #endif
+LL if no match is found.
+ */
+const CTLOG *CTLOG_STORE_get0_log_by_id(const CTLOG_STORE *store,
+    const uint8_t *log_id,
+    size_t log_id_len);
+
+/*
+ * Loads a CT log list into a |store| from a |file|.
+ * Returns 1 if loading is successful, or 0 otherwise.
+ */
+__owur int CTLOG_STORE_load_file(CTLOG_STORE *store, const char *file);
+
+/*
+ * Loads the default CT log list into a |store|.
+ * Returns 1 if loading is successful, or 0 otherwise.
+ */
+__owur int CTLOG_STORE_load_default_file(CTLOG_STORE *store);
+
+#ifdef __cplusplus
+}
+#endif
+#endif
+#endif

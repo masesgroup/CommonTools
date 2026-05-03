@@ -192,13 +192,7 @@ extern "C" {
  * # define BIO_CTRL_SET_KTLS_TX_ZEROCOPY_SENDFILE 90
  */
 
-#define BIO_CTRL_GET_RPOLL_DESCRIPTOR 91
-#define BIO_CTRL_GET_WPOLL_DESCRIPTOR 92
-#define BIO_CTRL_DGRAM_DETECT_PEER_ADDR 93
-#define BIO_CTRL_DGRAM_SET0_LOCAL_ADDR 94
-
-#define BIO_DGRAM_CAP_NONE 0U
-#define BIO_DGRAM_CAP_HANDLES_SRC_ADDR (1U << 0)
+#define BIO_CTRL_GET_RPOLL_DESCRI_SRC_ADDR (1U << 0)
 #define BIO_DGRAM_CAP_HANDLES_DST_ADDR (1U << 1)
 #define BIO_DGRAM_CAP_PROVIDES_SRC_ADDR (1U << 2)
 #define BIO_DGRAM_CAP_PROVIDES_DST_ADDR (1U << 3)
@@ -1005,6 +999,28 @@ OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_write(const BIO_METHOD *biom))(BIO *, c
 OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_write_ex(const BIO_METHOD *biom))(BIO *, const char *,
     size_t, size_t *);
 OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_sendmmsg(const BIO_METHOD *biom))(BIO *, BIO_MSG *,
+    size_t, size_t,
+    uint64_t, size_t *);
+OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_read(const BIO_METHOD *biom))(BIO *, char *, int);
+OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_read_ex(const BIO_METHOD *biom))(BIO *, char *,
+    size_t, size_t *);
+OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_recvmmsg(const BIO_METHOD *biom))(BIO *, BIO_MSG *,
+    size_t, size_t,
+    uint64_t, size_t *);
+OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_puts(const BIO_METHOD *biom))(BIO *, const char *);
+OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_gets(const BIO_METHOD *biom))(BIO *, char *, int);
+OSSL_DEPRECATEDIN_3_5 long (*BIO_meth_get_ctrl(const BIO_METHOD *biom))(BIO *, int,
+    long, void *);
+OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_create(const BIO_METHOD *bion))(BIO *);
+OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_destroy(const BIO_METHOD *biom))(BIO *);
+OSSL_DEPRECATEDIN_3_5 long (*BIO_meth_get_callback_ctrl(const BIO_METHOD *biom))(BIO *, int,
+    BIO_info_cb *);
+#endif
+#ifdef __cplusplus
+}
+#endif
+#endif
+, BIO_MSG *,
     size_t, size_t,
     uint64_t, size_t *);
 OSSL_DEPRECATEDIN_3_5 int (*BIO_meth_get_read(const BIO_METHOD *biom))(BIO *, char *, int);

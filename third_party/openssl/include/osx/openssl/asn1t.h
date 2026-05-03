@@ -396,17 +396,7 @@ extern "C" {
 #define ASN1_SEQUENCE_OF(stname, field, type) \
     ASN1_EX_TYPE(ASN1_TFLG_SEQUENCE_OF, 0, stname, field, type)
 
-/* OPTIONAL SEQUENCE OF */
-#define ASN1_SEQUENCE_OF_OPT(stname, field, type) \
-    ASN1_EX_TYPE(ASN1_TFLG_SEQUENCE_OF | ASN1_TFLG_OPTIONAL, 0, stname, field, type)
-
-/* Same as above but for SET OF */
-
-#define ASN1_SET_OF(stname, field, type) \
-    ASN1_EX_TYPE(ASN1_TFLG_SET_OF, 0, stname, field, type)
-
-#define ASN1_SET_OF_OPT(stname, field, type) \
-    ASN1_EX_TYPE(ASN1_TFLG_SET_OF | ASN1_TFLG_OPTIONAL, 0, stname, field, type)
+/* OPTION0, stname, field, type)
 
 /* Finally compound types of SEQUENCE, SET, IMPLICIT, EXPLICIT and OPTIONAL */
 
@@ -909,6 +899,31 @@ SKM_DEFINE_STACK_OF_INTERNAL(ASN1_VALUE, ASN1_VALUE, ASN1_VALUE)
 #define sk_ASN1_VALUE_dup(sk) ((STACK_OF(ASN1_VALUE) *)OPENSSL_sk_dup(ossl_check_const_ASN1_VALUE_sk_type(sk)))
 #define sk_ASN1_VALUE_deep_copy(sk, copyfunc, freefunc) ((STACK_OF(ASN1_VALUE) *)OPENSSL_sk_deep_copy(ossl_check_const_ASN1_VALUE_sk_type(sk), ossl_check_ASN1_VALUE_copyfunc_type(copyfunc), ossl_check_ASN1_VALUE_freefunc_type(freefunc)))
 #define sk_ASN1_VALUE_set_cmp_func(sk, cmp) ((sk_ASN1_VALUE_compfunc)OPENSSL_sk_set_cmp_func(ossl_check_ASN1_VALUE_sk_type(sk), ossl_check_ASN1_VALUE_compfunc_type(cmp)))
+
+/* clang-format on */
+
+/* Functions used internally by the ASN1 code */
+
+int ASN1_item_ex_new(ASN1_VALUE **pval, const ASN1_ITEM *it);
+void ASN1_item_ex_free(ASN1_VALUE **pval, const ASN1_ITEM *it);
+
+int ASN1_item_ex_d2i(ASN1_VALUE **pval, const unsigned char **in, long len,
+    const ASN1_ITEM *it, int tag, int aclass, char opt,
+    ASN1_TLC *ctx);
+
+int ASN1_item_ex_i2d(const ASN1_VALUE **pval, unsigned char **out,
+    const ASN1_ITEM *it, int tag, int aclass);
+
+/* Legacy compatibility */
+#define IMPLEMENT_ASN1_FUNCTIONS_const(name) IMPLEMENT_ASN1_FUNCTIONS(name)
+#define IMPLEMENT_ASN1_ENCODE_FUNCTIONS_const_fname(stname, itname, fname) \
+    IMPLEMENT_ASN1_ENCODE_FUNCTIONS_fname(stname, itname, fname)
+
+#ifdef __cplusplus
+}
+#endif
+#endif
+ASN1_VALUE_set_cmp_func(sk, cmp) ((sk_ASN1_VALUE_compfunc)OPENSSL_sk_set_cmp_func(ossl_check_ASN1_VALUE_sk_type(sk), ossl_check_ASN1_VALUE_compfunc_type(cmp)))
 
 /* clang-format on */
 

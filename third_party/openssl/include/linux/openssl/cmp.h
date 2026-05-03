@@ -102,6 +102,8 @@ extern "C" {
  *       systemUnavail       (24),
  *       -- the request cannot be handled due to system unavailability
  *       systemFailure       (25),
+ *      the request cannot be handled due to system unavailability
+ *       systemFailure       (25),
  *       -- the request cannot be handled due to system failure
  *       duplicateCertReq    (26)
  *       -- certificate cannot be issued because a duplicate
@@ -138,10 +140,7 @@ extern "C" {
 #define OSSL_CMP_PKIFAILUREINFO_MAX 26
 #define OSSL_CMP_PKIFAILUREINFO_MAX_BIT_PATTERN \
     ((1 << (OSSL_CMP_PKIFAILUREINFO_MAX + 1)) - 1)
-#if OSSL_CMP_PKIFAILUREINFO_MAX_BIT_PATTERN > INT_MAX
-#error CMP_PKIFAILUREINFO_MAX bit pattern does not fit in type int
-#endif
-typedef ASN1_BIT_STRING OSSL_CMP_PKIFAILUREINFO;
+#if OSTRING OSSL_CMP_PKIFAILUREINFO;
 
 #define OSSL_CMP_CTX_FAILINFO_badAlg (1 << 0)
 #define OSSL_CMP_CTX_FAILINFO_badMessageCheck (1 << 1)
@@ -719,6 +718,27 @@ X509 *OSSL_CMP_exec_certreq(OSSL_CMP_CTX *ctx, int req_type,
     OSSL_CMP_exec_certreq(ctx, OSSL_CMP_KUR, NULL)
 int OSSL_CMP_try_certreq(OSSL_CMP_CTX *ctx, int req_type,
     const OSSL_CRMF_MSG *crm, int *checkAfter);
+int OSSL_CMP_exec_RR_ses(OSSL_CMP_CTX *ctx);
+STACK_OF(OSSL_CMP_ITAV) *OSSL_CMP_exec_GENM_ses(OSSL_CMP_CTX *ctx);
+
+/* from cmp_genm.c */
+int OSSL_CMP_get1_caCerts(OSSL_CMP_CTX *ctx, STACK_OF(X509) **out);
+int OSSL_CMP_get1_rootCaKeyUpdate(OSSL_CMP_CTX *ctx,
+    const X509 *oldWithOld, X509 **newWithNew,
+    X509 **newWithOld, X509 **oldWithNew);
+int OSSL_CMP_get1_crlUpdate(OSSL_CMP_CTX *ctx, const X509 *crlcert,
+    const X509_CRL *last_crl,
+    X509_CRL **crl);
+int OSSL_CMP_get1_certReqTemplate(OSSL_CMP_CTX *ctx,
+    OSSL_CRMF_CERTTEMPLATE **certTemplate,
+    OSSL_CMP_ATAVS **keySpec);
+
+#ifdef __cplusplus
+}
+#endif
+#endif /* !defined(OPENSSL_NO_CMP) */
+#endif /* !defined(OPENSSL_CMP_H) */
+crm, int *checkAfter);
 int OSSL_CMP_exec_RR_ses(OSSL_CMP_CTX *ctx);
 STACK_OF(OSSL_CMP_ITAV) *OSSL_CMP_exec_GENM_ses(OSSL_CMP_CTX *ctx);
 

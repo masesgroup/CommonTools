@@ -407,3 +407,16 @@ UI_METHOD *UI_UTIL_wrap_read_pem_callback(pem_password_cb *cb, int rwflag);
 }
 #endif
 #endif
+sult_ex(UI *ui, UI_STRING *uis, const char *result, int len);
+
+/* A couple of popular utility functions */
+int UI_UTIL_read_pw_string(char *buf, int length, const char *prompt,
+    int verify);
+int UI_UTIL_read_pw(char *buf, char *buff, int size, const char *prompt,
+    int verify);
+UI_METHOD *UI_UTIL_wrap_read_pem_callback(pem_password_cb *cb, int rwflag);
+
+#ifdef __cplusplus
+}
+#endif
+#endif

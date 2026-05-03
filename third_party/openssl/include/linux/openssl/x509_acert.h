@@ -154,6 +154,7 @@ SKM_DEFINE_STACK_OF_INTERNAL(OSSL_IETF_ATTR_SYNTAX_VALUE, OSSL_IETF_ATTR_SYNTAX_
 #define sk_OSSL_IETF_ATTR_SYNTAX_VALUE_insert(sk, ptr, idx) OPENSSL_sk_insert(ossl_check_OSSL_IETF_ATTR_SYNTAX_VALUE_sk_type(sk), ossl_check_OSSL_IETF_ATTR_SYNTAX_VALUE_type(ptr), (idx))
 #define sk_OSSL_IETF_ATTR_SYNTAX_VALUE_set(sk, idx, ptr) ((OSSL_IETF_ATTR_SYNTAX_VALUE *)OPENSSL_sk_set(ossl_check_OSSL_IETF_ATTR_SYNTAX_VALUE_sk_type(sk), (idx), ossl_check_OSSL_IETF_ATTR_SYNTAX_VALUE_type(ptr)))
 #define sk_OSSL_IETF_ATTR_SYNTAX_VALUE_find(sk, ptr) OPENSSL_sk_find(ossl_check_OSSL_IETF_ATTR_SYNTAX_VALUE_sk_type(sk), ossl_check_OSSL_IETF_ATTR_SYNTAX_VALUE_type(ptr))
+#define sk_OSSL_IETF_ATTind(sk, ptr) OPENSSL_sk_find(ossl_check_OSSL_IETF_ATTR_SYNTAX_VALUE_sk_type(sk), ossl_check_OSSL_IETF_ATTR_SYNTAX_VALUE_type(ptr))
 #define sk_OSSL_IETF_ATTR_SYNTAX_VALUE_find_ex(sk, ptr) OPENSSL_sk_find_ex(ossl_check_OSSL_IETF_ATTR_SYNTAX_VALUE_sk_type(sk), ossl_check_OSSL_IETF_ATTR_SYNTAX_VALUE_type(ptr))
 #define sk_OSSL_IETF_ATTR_SYNTAX_VALUE_find_all(sk, ptr, pnum) OPENSSL_sk_find_all(ossl_check_OSSL_IETF_ATTR_SYNTAX_VALUE_sk_type(sk), ossl_check_OSSL_IETF_ATTR_SYNTAX_VALUE_type(ptr), pnum)
 #define sk_OSSL_IETF_ATTR_SYNTAX_VALUE_sort(sk) OPENSSL_sk_sort(ossl_check_OSSL_IETF_ATTR_SYNTAX_VALUE_sk_type(sk))

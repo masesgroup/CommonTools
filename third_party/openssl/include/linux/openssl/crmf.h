@@ -277,3 +277,13 @@ OSSL_CRMF_ENCRYPTEDKEY *OSSL_CRMF_ENCRYPTEDKEY_init_envdata(CMS_EnvelopedData *e
 #endif
 #endif /* !defined(OPENSSL_NO_CRMF) */
 #endif /* !defined(OPENSSL_CRMF_H) */
+OSSL_CRMF_MSG *crm, const X509_REQ *p10cr);
+#ifndef OPENSSL_NO_CMS
+OSSL_CRMF_ENCRYPTEDKEY *OSSL_CRMF_ENCRYPTEDKEY_init_envdata(CMS_EnvelopedData *envdata);
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+#endif /* !defined(OPENSSL_NO_CRMF) */
+#endif /* !defined(OPENSSL_CRMF_H) */

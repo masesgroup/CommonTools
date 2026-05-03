@@ -2011,3 +2011,31 @@ DECLARE_ASN1_FUNCTIONS(OSSL_AA_DIST_POINT)
 }
 #endif
 #endif
+ ossl_check_OSSL_ALLOWED_ATTRIBUTES_ITEM_type(ptr)))
+#define sk_OSSL_ALLOWED_ATTRIBUTES_ITEM_find(sk, ptr) OPENSSL_sk_find(ossl_check_OSSL_ALLOWED_ATTRIBUTES_ITEM_sk_type(sk), ossl_check_OSSL_ALLOWED_ATTRIBUTES_ITEM_type(ptr))
+#define sk_OSSL_ALLOWED_ATTRIBUTES_ITEM_find_ex(sk, ptr) OPENSSL_sk_find_ex(ossl_check_OSSL_ALLOWED_ATTRIBUTES_ITEM_sk_type(sk), ossl_check_OSSL_ALLOWED_ATTRIBUTES_ITEM_type(ptr))
+#define sk_OSSL_ALLOWED_ATTRIBUTES_ITEM_find_all(sk, ptr, pnum) OPENSSL_sk_find_all(ossl_check_OSSL_ALLOWED_ATTRIBUTES_ITEM_sk_type(sk), ossl_check_OSSL_ALLOWED_ATTRIBUTES_ITEM_type(ptr), pnum)
+#define sk_OSSL_ALLOWED_ATTRIBUTES_ITEM_sort(sk) OPENSSL_sk_sort(ossl_check_OSSL_ALLOWED_ATTRIBUTES_ITEM_sk_type(sk))
+#define sk_OSSL_ALLOWED_ATTRIBUTES_ITEM_is_sorted(sk) OPENSSL_sk_is_sorted(ossl_check_const_OSSL_ALLOWED_ATTRIBUTES_ITEM_sk_type(sk))
+#define sk_OSSL_ALLOWED_ATTRIBUTES_ITEM_dup(sk) ((STACK_OF(OSSL_ALLOWED_ATTRIBUTES_ITEM) *)OPENSSL_sk_dup(ossl_check_const_OSSL_ALLOWED_ATTRIBUTES_ITEM_sk_type(sk)))
+#define sk_OSSL_ALLOWED_ATTRIBUTES_ITEM_deep_copy(sk, copyfunc, freefunc) ((STACK_OF(OSSL_ALLOWED_ATTRIBUTES_ITEM) *)OPENSSL_sk_deep_copy(ossl_check_const_OSSL_ALLOWED_ATTRIBUTES_ITEM_sk_type(sk), ossl_check_OSSL_ALLOWED_ATTRIBUTES_ITEM_copyfunc_type(copyfunc), ossl_check_OSSL_ALLOWED_ATTRIBUTES_ITEM_freefunc_type(freefunc)))
+#define sk_OSSL_ALLOWED_ATTRIBUTES_ITEM_set_cmp_func(sk, cmp) ((sk_OSSL_ALLOWED_ATTRIBUTES_ITEM_compfunc)OPENSSL_sk_set_cmp_func(ossl_check_OSSL_ALLOWED_ATTRIBUTES_ITEM_sk_type(sk), ossl_check_OSSL_ALLOWED_ATTRIBUTES_ITEM_compfunc_type(cmp)))
+
+/* clang-format on */
+
+typedef struct AA_DIST_POINT_st {
+    DIST_POINT_NAME *distpoint;
+    ASN1_BIT_STRING *reasons;
+    int dp_reasons;
+    ASN1_BOOLEAN indirectCRL;
+    ASN1_BOOLEAN containsUserAttributeCerts;
+    ASN1_BOOLEAN containsAACerts;
+    ASN1_BOOLEAN containsSOAPublicKeyCerts;
+} OSSL_AA_DIST_POINT;
+
+DECLARE_ASN1_FUNCTIONS(OSSL_AA_DIST_POINT)
+
+#ifdef __cplusplus
+}
+#endif
+#endif

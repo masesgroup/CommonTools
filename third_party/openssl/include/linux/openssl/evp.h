@@ -2288,3 +2288,52 @@ EVP_SKEY *EVP_SKEY_to_provider(EVP_SKEY *skey, OSSL_LIB_CTX *libctx,
 }
 #endif
 #endif
+*name);
+const char *EVP_KEYEXCH_get0_name(const EVP_KEYEXCH *keyexch);
+const char *EVP_KEYEXCH_get0_description(const EVP_KEYEXCH *keyexch);
+void EVP_KEYEXCH_do_all_provided(OSSL_LIB_CTX *libctx,
+    void (*fn)(EVP_KEYEXCH *keyexch, void *data),
+    void *data);
+int EVP_KEYEXCH_names_do_all(const EVP_KEYEXCH *keyexch,
+    void (*fn)(const char *name, void *data),
+    void *data);
+const OSSL_PARAM *EVP_KEYEXCH_gettable_ctx_params(const EVP_KEYEXCH *keyexch);
+const OSSL_PARAM *EVP_KEYEXCH_settable_ctx_params(const EVP_KEYEXCH *keyexch);
+
+void EVP_add_alg_module(void);
+
+int EVP_PKEY_CTX_set_group_name(EVP_PKEY_CTX *ctx, const char *name);
+int EVP_PKEY_CTX_get_group_name(EVP_PKEY_CTX *ctx, char *name, size_t namelen);
+int EVP_PKEY_get_group_name(const EVP_PKEY *pkey, char *name, size_t name_sz,
+    size_t *gname_len);
+
+OSSL_LIB_CTX *EVP_PKEY_CTX_get0_libctx(EVP_PKEY_CTX *ctx);
+const char *EVP_PKEY_CTX_get0_propq(const EVP_PKEY_CTX *ctx);
+const OSSL_PROVIDER *EVP_PKEY_CTX_get0_provider(const EVP_PKEY_CTX *ctx);
+
+int EVP_SKEY_is_a(const EVP_SKEY *skey, const char *name);
+EVP_SKEY *EVP_SKEY_import(OSSL_LIB_CTX *libctx, const char *skeymgmtname, const char *propquery,
+    int selection, const OSSL_PARAM *params);
+EVP_SKEY *EVP_SKEY_generate(OSSL_LIB_CTX *libctx, const char *skeymgmtname,
+    const char *propquery, const OSSL_PARAM *params);
+EVP_SKEY *EVP_SKEY_import_raw_key(OSSL_LIB_CTX *libctx, const char *skeymgmtname,
+    unsigned char *key, size_t keylen,
+    const char *propquery);
+EVP_SKEY *EVP_SKEY_import_SKEYMGMT(OSSL_LIB_CTX *libctx, EVP_SKEYMGMT *skeymgmt,
+    int selection, const OSSL_PARAM *params);
+int EVP_SKEY_get0_raw_key(const EVP_SKEY *skey, const unsigned char **key,
+    size_t *len);
+const char *EVP_SKEY_get0_key_id(const EVP_SKEY *skey);
+int EVP_SKEY_export(const EVP_SKEY *skey, int selection,
+    OSSL_CALLBACK *export_cb, void *export_cbarg);
+int EVP_SKEY_up_ref(EVP_SKEY *skey);
+void EVP_SKEY_free(EVP_SKEY *skey);
+const char *EVP_SKEY_get0_skeymgmt_name(const EVP_SKEY *skey);
+const char *EVP_SKEY_get0_provider_name(const EVP_SKEY *skey);
+EVP_SKEY *EVP_SKEY_to_provider(EVP_SKEY *skey, OSSL_LIB_CTX *libctx,
+    OSSL_PROVIDER *prov, const char *propquery);
+
+#ifdef __cplusplus
+}
+#endif
+#endif

@@ -42,3 +42,8 @@ struct conf_st {
 };
 
 #endif
+;
+    OSSL_LIB_CTX *libctx;
+};
+
+#endif

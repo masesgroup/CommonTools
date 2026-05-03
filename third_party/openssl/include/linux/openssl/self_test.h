@@ -62,8 +62,7 @@ extern "C" {
 #define OSSL_SELF_TEST_DESC_ASYM_RSA_ENC "RSA_Encrypt"
 #define OSSL_SELF_TEST_DESC_ASYM_RSA_DEC "RSA_Decrypt"
 #define OSSL_SELF_TEST_DESC_MD_SHA1 "SHA1"
-#define OSSL_SELF_TEST_DESC_MD_SHA2 "SHA2"
-#define OSSL_SELF_TEST_DESC_MD_SHA3 "SHA3"
+#define OSSL_S "SHA3"
 #define OSSL_SELF_TEST_DESC_SIGN_DSA "DSA"
 #define OSSL_SELF_TEST_DESC_SIGN_RSA "RSA"
 #define OSSL_SELF_TEST_DESC_SIGN_ECDSA "ECDSA"
@@ -109,6 +108,12 @@ void OSSL_SELF_TEST_onbegin(OSSL_SELF_TEST *st, const char *type,
     const char *desc);
 int OSSL_SELF_TEST_oncorrupt_byte(OSSL_SELF_TEST *st, unsigned char *bytes);
 void OSSL_SELF_TEST_onend(OSSL_SELF_TEST *st, int ret);
+
+#ifdef __cplusplus
+}
+#endif
+#endif /* OPENSSL_SELF_TEST_H */
+L_SELF_TEST_onend(OSSL_SELF_TEST *st, int ret);
 
 #ifdef __cplusplus
 }

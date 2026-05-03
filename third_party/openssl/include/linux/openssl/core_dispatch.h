@@ -750,6 +750,26 @@ OSSL_CORE_MAKE_FUNC(void *, keymgmt_dup,
 
 /* Extended import and export functions */
 #define OSSL_FUNC_KEYMGMT_IMPORT_TYPES_EX 45
+#define OSSL_F 41
+#define OSSL_FUNC_KEYMGMT_EXPORT 42
+#define OSSL_FUNC_KEYMGMT_EXPORT_TYPES 43
+OSSL_CORE_MAKE_FUNC(int, keymgmt_import,
+    (void *keydata, int selection, const OSSL_PARAM params[]))
+OSSL_CORE_MAKE_FUNC(const OSSL_PARAM *, keymgmt_import_types,
+    (int selection))
+OSSL_CORE_MAKE_FUNC(int, keymgmt_export,
+    (void *keydata, int selection,
+        OSSL_CALLBACK *param_cb, void *cbarg))
+OSSL_CORE_MAKE_FUNC(const OSSL_PARAM *, keymgmt_export_types,
+    (int selection))
+
+/* Dup function, constructor */
+#define OSSL_FUNC_KEYMGMT_DUP 44
+OSSL_CORE_MAKE_FUNC(void *, keymgmt_dup,
+    (const void *keydata_from, int selection))
+
+/* Extended import and export functions */
+#define OSSL_FUNC_KEYMGMT_IMPORT_TYPES_EX 45
 #define OSSL_FUNC_KEYMGMT_EXPORT_TYPES_EX 46
 OSSL_CORE_MAKE_FUNC(const OSSL_PARAM *, keymgmt_import_types_ex,
     (void *provctx, int selection))
@@ -806,22 +826,7 @@ OSSL_CORE_MAKE_FUNC(void *, keyexch_derive_skey, (void *ctx, const char *key_typ
 #define OSSL_FUNC_SIGNATURE_GET_CTX_PARAMS 18
 #define OSSL_FUNC_SIGNATURE_GETTABLE_CTX_PARAMS 19
 #define OSSL_FUNC_SIGNATURE_SET_CTX_PARAMS 20
-#define OSSL_FUNC_SIGNATURE_SETTABLE_CTX_PARAMS 21
-#define OSSL_FUNC_SIGNATURE_GET_CTX_MD_PARAMS 22
-#define OSSL_FUNC_SIGNATURE_GETTABLE_CTX_MD_PARAMS 23
-#define OSSL_FUNC_SIGNATURE_SET_CTX_MD_PARAMS 24
-#define OSSL_FUNC_SIGNATURE_SETTABLE_CTX_MD_PARAMS 25
-#define OSSL_FUNC_SIGNATURE_QUERY_KEY_TYPES 26
-#define OSSL_FUNC_SIGNATURE_SIGN_MESSAGE_INIT 27
-#define OSSL_FUNC_SIGNATURE_SIGN_MESSAGE_UPDATE 28
-#define OSSL_FUNC_SIGNATURE_SIGN_MESSAGE_FINAL 29
-#define OSSL_FUNC_SIGNATURE_VERIFY_MESSAGE_INIT 30
-#define OSSL_FUNC_SIGNATURE_VERIFY_MESSAGE_UPDATE 31
-#define OSSL_FUNC_SIGNATURE_VERIFY_MESSAGE_FINAL 32
-
-OSSL_CORE_MAKE_FUNC(void *, signature_newctx, (void *provctx, const char *propq))
-OSSL_CORE_MAKE_FUNC(int, signature_sign_init, (void *ctx, void *provkey, const OSSL_PARAM params[]))
-OSSL_CORE_MAKE_FUNC(int, signature_sign, (void *ctx, unsigned char *sig, size_t *siglen, size_t sigsize, const unsigned char *tbs, size_t tbslen))
+#define OSSL_FUNC_SIGNATU, (void *ctx, unsigned char *sig, size_t *siglen, size_t sigsize, const unsigned char *tbs, size_t tbslen))
 OSSL_CORE_MAKE_FUNC(int, signature_sign_message_init,
     (void *ctx, void *provkey, const OSSL_PARAM params[]))
 OSSL_CORE_MAKE_FUNC(int, signature_sign_message_update,
@@ -1034,6 +1039,32 @@ OSSL_CORE_MAKE_FUNC(int, decoder_export_object,
 #define OSSL_FUNC_STORE_OPEN_EX 10
 OSSL_CORE_MAKE_FUNC(void *, store_open, (void *provctx, const char *uri))
 OSSL_CORE_MAKE_FUNC(void *, store_attach, (void *provctx, OSSL_CORE_BIO *in))
+OSSL_CORE_MAKE_FUNC(const OSSL_PARAM *, store_settable_ctx_params,
+    (void *provctx))
+OSSL_CORE_MAKE_FUNC(int, store_set_ctx_params,
+    (void *loaderctx, const OSSL_PARAM params[]))
+OSSL_CORE_MAKE_FUNC(int, store_load,
+    (void *loaderctx,
+        OSSL_CALLBACK *object_cb, void *object_cbarg,
+        OSSL_PASSPHRASE_CALLBACK *pw_cb, void *pw_cbarg))
+OSSL_CORE_MAKE_FUNC(int, store_eof, (void *loaderctx))
+OSSL_CORE_MAKE_FUNC(int, store_close, (void *loaderctx))
+OSSL_CORE_MAKE_FUNC(int, store_export_object,
+    (void *loaderctx, const void *objref, size_t objref_sz,
+        OSSL_CALLBACK *export_cb, void *export_cbarg))
+OSSL_CORE_MAKE_FUNC(int, store_delete,
+    (void *provctx, const char *uri, const OSSL_PARAM params[],
+        OSSL_PASSPHRASE_CALLBACK *pw_cb, void *pw_cbarg))
+OSSL_CORE_MAKE_FUNC(void *, store_open_ex,
+    (void *provctx, const char *uri, const OSSL_PARAM params[],
+        OSSL_PASSPHRASE_CALLBACK *pw_cb, void *pw_cbarg))
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+ttach, (void *provctx, OSSL_CORE_BIO *in))
 OSSL_CORE_MAKE_FUNC(const OSSL_PARAM *, store_settable_ctx_params,
     (void *provctx))
 OSSL_CORE_MAKE_FUNC(int, store_set_ctx_params,

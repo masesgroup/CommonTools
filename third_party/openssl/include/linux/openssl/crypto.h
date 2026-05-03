@@ -292,6 +292,13 @@ int CRYPTO_dup_ex_data(int class_index, CRYPTO_EX_DATA *to,
 void CRYPTO_free_ex_data(int class_index, void *obj, CRYPTO_EX_DATA *ad);
 
 /* Allocate a single item in the CRYPTO_EX_DATA variable */
+int CRYPTO_alloc_ex_data(int class_, CRYPTO_EX_DATA *ad);
+int CRYPTO_dup_ex_data(int class_index, CRYPTO_EX_DATA *to,
+    const CRYPTO_EX_DATA *from);
+
+void CRYPTO_free_ex_data(int class_index, void *obj, CRYPTO_EX_DATA *ad);
+
+/* Allocate a single item in the CRYPTO_EX_DATA variable */
 int CRYPTO_alloc_ex_data(int class_index, void *obj, CRYPTO_EX_DATA *ad,
     int idx);
 
@@ -328,19 +335,7 @@ void *CRYPTO_get_ex_data(const CRYPTO_EX_DATA *ad, int idx);
 #define CRYPTO_get_add_lock_callback() (NULL)
 
 /*
- * These defines where used in combination with the old locking callbacks,
- * they are not called anymore, but old code that's not called might still
- * use them.
- */
-#define CRYPTO_LOCK 1
-#define CRYPTO_UNLOCK 2
-#define CRYPTO_READ 4
-#define CRYPTO_WRITE 8
-
-/* This structure is no longer used */
-typedef struct crypto_threadid_st {
-    int dummy;
-} CRYPTO_THREADID;
+ * These defines where used in combi;
 /* Only use CRYPTO_THREADID_set_[numeric|pointer]() within callbacks */
 #define CRYPTO_THREADID_set_numeric(id, val)
 #define CRYPTO_THREADID_set_pointer(id, ptr)
@@ -600,6 +595,24 @@ int CRYPTO_THREAD_compare_id(CRYPTO_THREAD_ID a, CRYPTO_THREAD_ID b);
 OSSL_LIB_CTX *OSSL_LIB_CTX_new(void);
 OSSL_LIB_CTX *OSSL_LIB_CTX_new_from_dispatch(const OSSL_CORE_HANDLE *handle,
     const OSSL_DISPATCH *in);
+OSSL_LIB_CTX *OSSL_LIB_CTX_new_child(const OSSL_CORE_HANDLE *handle,
+    const OSSL_DISPATCH *in);
+int OSSL_LIB_CTX_load_config(OSSL_LIB_CTX *ctx, const char *config_file);
+void OSSL_LIB_CTX_free(OSSL_LIB_CTX *);
+OSSL_LIB_CTX *OSSL_LIB_CTX_get0_global_default(void);
+OSSL_LIB_CTX *OSSL_LIB_CTX_set0_default(OSSL_LIB_CTX *libctx);
+int OSSL_LIB_CTX_get_conf_diagnostics(OSSL_LIB_CTX *ctx);
+void OSSL_LIB_CTX_set_conf_diagnostics(OSSL_LIB_CTX *ctx, int value);
+
+void OSSL_sleep(uint64_t millis);
+
+void *OSSL_LIB_CTX_get_data(OSSL_LIB_CTX *ctx, int index);
+
+#ifdef __cplusplus
+}
+#endif
+#endif
+PATCH *in);
 OSSL_LIB_CTX *OSSL_LIB_CTX_new_child(const OSSL_CORE_HANDLE *handle,
     const OSSL_DISPATCH *in);
 int OSSL_LIB_CTX_load_config(OSSL_LIB_CTX *ctx, const char *config_file);
