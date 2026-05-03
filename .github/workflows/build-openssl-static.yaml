@@ -116,8 +116,18 @@ jobs:
           vcpkg install openssl:${{ matrix.triplet }} `
             --x-buildtrees-root=${{ runner.temp }}/vcpkg-buildtrees
 
+      - name: Build OpenSSL (macOS x64)
+        if: matrix.platform == 'osx'
+        shell: bash
+        env:
+          MACOSX_DEPLOYMENT_TARGET: "14.0"
+        run: |
+          vcpkg install openssl:${{ matrix.triplet }} \
+            --overlay-triplets=${{ github.workspace }}/triplets \
+            --x-buildtrees-root=${{ runner.temp }}/vcpkg-buildtrees
+
       - name: Build OpenSSL (Linux/macOS)
-        if: matrix.platform != 'windows'
+        if: matrix.platform == 'linux'
         shell: bash
         run: |
           vcpkg install openssl:${{ matrix.triplet }} \
