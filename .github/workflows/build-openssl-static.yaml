@@ -1,0 +1,166 @@
+name: Build OpenSSL Static Libraries
+
+on:
+  workflow_dispatch:
+    inputs:
+      openssl_version:
+        description: 'OpenSSL version'
+        required: true
+        default: '3.3.0'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            triplet: x86-windows-static-md
+            arch: x86
+            platform: windows
+          - os: windows-latest
+            triplet: x64-windows-static-md
+            arch: x64
+            platform: windows
+          - os: windows-latest
+            triplet: arm64-windows-static-md
+            arch: arm64
+            platform: windows
+          - os: ubuntu-latest
+            triplet: x64-linux
+            arch: x64
+            platform: linux
+          - os: ubuntu-latest
+            triplet: arm64-linux
+            arch: arm64
+            platform: linux
+          - os: ubuntu-latest
+            triplet: arm-linux
+            arch: arm
+            platform: linux
+          - os: macos-26
+            triplet: arm64-osx
+            arch: arm64
+            platform: osx
+          - os: macos-26-intel
+            triplet: x64-osx
+            arch: x64
+            platform: osx
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: 'a42af01b72c28a8e1d7b48107b33e4f286a55ef6'
+
+      - name: Create static overlay triplets
+        if: matrix.platform != 'windows'
+        shell: bash
+        run: |
+          mkdir -p ${{ github.workspace }}/triplets
+          cat > ${{ github.workspace }}/triplets/${{ matrix.triplet }}-static.cmake << 'EOF'
+          set(VCPKG_TARGET_ARCHITECTURE ${{ matrix.arch }})
+          set(VCPKG_CRT_LINKAGE dynamic)
+          set(VCPKG_LIBRARY_LINKAGE static)
+          EOF
+
+      - name: Install cross-compile toolchain (Linux ARM)
+        if: matrix.platform == 'linux' && matrix.arch == 'arm'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
+
+      - name: Install cross-compile toolchain (Linux ARM64)
+        if: matrix.platform == 'linux' && matrix.arch == 'arm64'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+
+      - name: Build OpenSSL (Windows)
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          vcpkg install openssl:${{ matrix.triplet }} `
+            --x-buildtrees-root=${{ runner.temp }}/vcpkg-buildtrees
+
+      - name: Build OpenSSL (Linux/macOS)
+        if: matrix.platform != 'windows'
+        shell: bash
+        run: |
+          vcpkg install openssl:${{ matrix.triplet }} \
+            --overlay-triplets=${{ github.workspace }}/triplets \
+            --x-buildtrees-root=${{ runner.temp }}/vcpkg-buildtrees
+
+      - name: Collect libs (Windows)
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          $dst = "third_party/openssl/${{ matrix.platform }}/${{ matrix.arch }}"
+          New-Item -ItemType Directory -Force $dst
+          $src = "$env:VCPKG_ROOT/installed/${{ matrix.triplet }}"
+          Copy-Item "$src/lib/libssl.lib"    $dst
+          Copy-Item "$src/lib/libcrypto.lib" $dst
+          if ('${{ matrix.arch }}' -eq 'x64') {
+            New-Item -ItemType Directory -Force "third_party/openssl/include"
+            Copy-Item "$src/include/openssl" "third_party/openssl/include/" -Recurse
+          }
+
+      - name: Collect libs (Linux/macOS)
+        if: matrix.platform != 'windows'
+        shell: bash
+        run: |
+          DST="third_party/openssl/${{ matrix.platform }}/${{ matrix.arch }}"
+          mkdir -p "$DST"
+          SRC="$VCPKG_ROOT/installed/${{ matrix.triplet }}"
+          cp "$SRC/lib/libssl.a"    "$DST/"
+          cp "$SRC/lib/libcrypto.a" "$DST/"
+          if [ "${{ matrix.arch }}" = "x64" ]; then
+            mkdir -p "third_party/openssl/include"
+            cp -r "$SRC/include/openssl" "third_party/openssl/include/"
+          fi
+
+      # Upload intermedio — ogni job salva la sua fetta
+      - name: Upload partial artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: openssl-${{ matrix.platform }}-${{ matrix.arch }}
+          path: third_party/openssl/
+          retention-days: 1
+
+  open-pr:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: third_party/openssl/
+          merge-multiple: true 
+
+      - name: Open PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: openssl-static-${{ github.event.inputs.openssl_version }}-${{ github.run_id }}
+          commit-message: "chore: OpenSSL ${{ github.event.inputs.openssl_version }} static libs (all platforms)"
+          title: "OpenSSL ${{ github.event.inputs.openssl_version }} static libs"
+          body: |
+            Automated build from workflow #${{ github.run_id }}.
+            Contains static libraries for all platforms and architectures.
+
+            | Platform | Architectures |
+            |---|---|
+            | Windows | x86, x64, arm64 |
+            | Linux | x64, arm, arm64 |
+            | macOS | x64, arm64 |
+          labels: dependencies
