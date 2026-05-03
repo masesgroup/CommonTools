@@ -133,10 +133,10 @@ jobs:
           $src = "$env:VCPKG_ROOT/installed/${{ matrix.triplet }}"
           Copy-Item "$src/lib/libssl.lib"    $dst
           Copy-Item "$src/lib/libcrypto.lib" $dst
-          if ('${{ matrix.arch }}' -eq 'x64') {
-            New-Item -ItemType Directory -Force "third_party/openssl/include"
-            Copy-Item "$src/include/openssl" "third_party/openssl/include/" -Recurse
-          }
+          # Header per-platform
+          $inc = "third_party/openssl/include/${{ matrix.platform }}"
+          New-Item -ItemType Directory -Force $inc
+          Copy-Item "$src/include/openssl" "$inc/" -Recurse -Force
 
       - name: Collect libs (Linux/macOS)
         if: matrix.platform == 'linux' || matrix.platform == 'osx'
@@ -147,10 +147,10 @@ jobs:
           SRC="$VCPKG_ROOT/installed/${{ matrix.triplet }}"
           cp "$SRC/lib/libssl.a"    "$DST/"
           cp "$SRC/lib/libcrypto.a" "$DST/"
-          if [ "${{ matrix.arch }}" = "x64" ]; then
-            mkdir -p "third_party/openssl/include"
-            cp -r "$SRC/include/openssl" "third_party/openssl/include/"
-          fi
+          # Header per-platform
+          INC="third_party/openssl/include/${{ matrix.platform }}"
+          mkdir -p "$INC"
+          cp -r "$SRC/include/openssl" "$INC/"
 
       # Upload intermedio — ogni job salva la sua fetta
       - name: Upload partial artifact
