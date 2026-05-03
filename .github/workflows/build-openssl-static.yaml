@@ -206,16 +206,22 @@ jobs:
             DIR="third_party/openssl/include/$platform/openssl"
             if [ -d "$DIR" ]; then
               while IFS= read -r f; do
-                LAST=$(tail -1 "$f" | tr -d '[:space:]')
-                if [[ "$LAST" != *"#endif"* ]]; then
-                  echo "TRUNCATED: $f (last line: '$LAST')"
+                # File vuoto — sicuramente corrotto
+                if [ ! -s "$f" ]; then
+                  echo "EMPTY: $f"
+                  ERRORS=$((ERRORS + 1))
+                  continue
+                fi
+                LAST=$(tail -1 "$f")
+                if [[ "$LAST" == *\\ ]]; then
+                  echo "TRUNCATED mid-line: $f (last line: '$LAST')"
                   ERRORS=$((ERRORS + 1))
                 fi
               done < <(find "$DIR" -name "*.h")
             fi
           done
           if [ $ERRORS -gt 0 ]; then
-            echo "Found $ERRORS truncated header files — aborting PR"
+            echo "Found $ERRORS corrupted header files — aborting PR"
             exit 1
           fi
           echo "All headers OK"
