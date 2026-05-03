@@ -78,10 +78,7 @@ int RAND_bytes_ex(OSSL_LIB_CTX *ctx, unsigned char *buf, size_t num,
     unsigned int strength);
 
 #ifndef OPENSSL_NO_DEPRECATED_1_1_0
-OSSL_DEPRECATEDIN_1_1_0 int RAND_pseudo_bytes(unsigned char *buf, int num);
-#endif
-
-EVP_RAND_CTX *RAND_get0_primary(OSSL_LIB_CTX *ctx);
+OSSL_DEPRECATEDIN_1_1_0 int RAND_pseudo_bytes(unsigned;
 EVP_RAND_CTX *RAND_get0_public(OSSL_LIB_CTX *ctx);
 EVP_RAND_CTX *RAND_get0_private(OSSL_LIB_CTX *ctx);
 int RAND_set0_public(OSSL_LIB_CTX *ctx, EVP_RAND_CTX *rand);
@@ -123,6 +120,15 @@ OSSL_DEPRECATEDIN_1_1_0 int RAND_event(UINT, WPARAM, LPARAM);
 int RAND_set1_random_provider(OSSL_LIB_CTX *ctx, OSSL_PROVIDER *p);
 
 /* Which parameter to provider_random call */
+#define OSSL_PROV_RANDOM_PUBLIC 0
+#define OSSL_PROV_RANDOM_PRIVATE 1
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+er_random call */
 #define OSSL_PROV_RANDOM_PUBLIC 0
 #define OSSL_PROV_RANDOM_PRIVATE 1
 

@@ -126,3 +126,10 @@
 
 #endif
 #endif
+ 157
+#define CMS_R_UNWRAP_FAILURE 180
+#define CMS_R_VERIFICATION_FAILURE 158
+#define CMS_R_WRAP_ERROR 159
+
+#endif
+#endif

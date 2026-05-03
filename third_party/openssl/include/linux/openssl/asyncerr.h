@@ -25,3 +25,6 @@
 #define ASYNC_R_INVALID_POOL_SIZE 103
 
 #endif
+D_POOL_SIZE 103
+
+#endif

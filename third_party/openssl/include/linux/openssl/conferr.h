@@ -48,3 +48,6 @@
 #define CONF_R_VARIABLE_HAS_NO_VALUE 104
 
 #endif
+efine CONF_R_VARIABLE_HAS_NO_VALUE 104
+
+#endif

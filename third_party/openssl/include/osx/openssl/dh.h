@@ -83,6 +83,10 @@ int EVP_PKEY_CTX_get0_dh_kdf_ukm(EVP_PKEY_CTX *ctx, unsigned char **ukm);
 #define EVP_PKEY_DH_KDF_NONE 1
 #define EVP_PKEY_DH_KDF_X9_42 2
 
+/* KDF types */
+#define EVP_PKEY_DH_KDF_NONE 1
+#define EVP_PKEY_DH_KDF_X9_42 2
+
 #ifndef OPENSSL_NO_STDIO
 #include <stdio.h>
 #endif

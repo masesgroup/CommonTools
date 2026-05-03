@@ -54,3 +54,5 @@ void OSSL_CMP_print_errors_cb(OSSL_CMP_log_cb_t log_fn);
 #endif
 #endif /* !defined(OPENSSL_NO_CMP) */
 #endif /* !defined(OPENSSL_CMP_UTIL_H) */
+_NO_CMP) */
+#endif /* !defined(OPENSSL_CMP_UTIL_H) */

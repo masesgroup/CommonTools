@@ -52,3 +52,7 @@
 #define CRYPTO_R_ZERO_LENGTH_NUMBER 115
 
 #endif
+0
+#define CRYPTO_R_ZERO_LENGTH_NUMBER 115
+
+#endif

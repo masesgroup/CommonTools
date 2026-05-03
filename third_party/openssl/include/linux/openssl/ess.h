@@ -129,3 +129,11 @@ int OSSL_ESS_check_signing_certs(const ESS_SIGNING_CERT *ss,
 }
 #endif
 #endif
+SIGNING_CERT_V2 *ssv2,
+    const STACK_OF(X509) *chain,
+    int require_signing_cert);
+
+#ifdef __cplusplus
+}
+#endif
+#endif

@@ -519,3 +519,18 @@ int TS_CONF_set_ess_cert_id_digest(CONF *conf, const char *section,
 #endif
 #endif
 #endif
+ection, TS_RESP_CTX *ctx);
+int TS_CONF_set_clock_precision_digits(const CONF *conf, const char *section,
+    TS_RESP_CTX *ctx);
+int TS_CONF_set_ordering(CONF *conf, const char *section, TS_RESP_CTX *ctx);
+int TS_CONF_set_tsa_name(CONF *conf, const char *section, TS_RESP_CTX *ctx);
+int TS_CONF_set_ess_cert_id_chain(CONF *conf, const char *section,
+    TS_RESP_CTX *ctx);
+int TS_CONF_set_ess_cert_id_digest(CONF *conf, const char *section,
+    TS_RESP_CTX *ctx);
+
+#ifdef __cplusplus
+}
+#endif
+#endif
+#endif

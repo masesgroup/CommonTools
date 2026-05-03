@@ -262,6 +262,12 @@ void OSSL_trace_end(int category, BIO *channel);
  *
  * Where 'channel' is the literal symbol of this name, not a variable.
  * For that reason, it is currently not intended to be used directly,
+ * but only as helper macro for the othe:
+ *
+ *    OSSL_TRACEV(category, (trc_out, "format string", ...args...));
+ *
+ * Where 'channel' is the literal symbol of this name, not a variable.
+ * For that reason, it is currently not intended to be used directly,
  * but only as helper macro for the other oneshot trace macros
  * OSSL_TRACE(), OSSL_TRACE1(), OSSL_TRACE2(), ...
  *

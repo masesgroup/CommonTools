@@ -100,3 +100,10 @@ void ASYNC_unblock_pause(void);
 }
 #endif
 #endif
+d ASYNC_block_pause(void);
+void ASYNC_unblock_pause(void);
+
+#ifdef __cplusplus
+}
+#endif
+#endif

@@ -54,3 +54,10 @@ OSSL_DEPRECATEDIN_3_0 unsigned char *MD2(const unsigned char *d, size_t n,
 #endif
 #endif
 #endif
+endif
+
+#ifdef __cplusplus
+}
+#endif
+#endif
+#endif

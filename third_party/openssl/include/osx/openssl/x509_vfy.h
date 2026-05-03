@@ -125,8 +125,7 @@ SKM_DEFINE_STACK_OF_INTERNAL(X509_OBJECT, X509_OBJECT, X509_OBJECT)
 #define sk_X509_OBJECT_set_cmp_func(sk, cmp) ((sk_X509_OBJECT_compfunc)OPENSSL_sk_set_cmp_func(ossl_check_X509_OBJECT_sk_type(sk), ossl_check_X509_OBJECT_compfunc_type(cmp)))
 SKM_DEFINE_STACK_OF_INTERNAL(X509_VERIFY_PARAM, X509_VERIFY_PARAM, X509_VERIFY_PARAM)
 #define sk_X509_VERIFY_PARAM_num(sk) OPENSSL_sk_num(ossl_check_const_X509_VERIFY_PARAM_sk_type(sk))
-#define sk_X509_VERIFY_PARAM_value(sk, idx) ((X509_VERIFY_PARAM *)OPENSSL_sk_value(ossl_check_const_X509_VERIFY_PARAM_sk_type(sk), (idx)))
-#define sk_X509_VERIFY_PARAM_new(cmp) ((STACK_OF(X509_VERIFY_PARAM) *)OPENSSL_sk_new(ossl_check_X509_VERIFY_PARAM_compfunc_type(cmp)))
+#define sk_X509_VERIFY_PARAM_value(sk, idx) ((X509_VERIFY_PARAM *)OPENSSL_sk_va *)OPENSSL_sk_new(ossl_check_X509_VERIFY_PARAM_compfunc_type(cmp)))
 #define sk_X509_VERIFY_PARAM_new_null() ((STACK_OF(X509_VERIFY_PARAM) *)OPENSSL_sk_new_null())
 #define sk_X509_VERIFY_PARAM_new_reserve(cmp, n) ((STACK_OF(X509_VERIFY_PARAM) *)OPENSSL_sk_new_reserve(ossl_check_X509_VERIFY_PARAM_compfunc_type(cmp), (n)))
 #define sk_X509_VERIFY_PARAM_reserve(sk, n) OPENSSL_sk_reserve(ossl_check_X509_VERIFY_PARAM_sk_type(sk), (n))
@@ -892,6 +891,35 @@ void X509_VERIFY_PARAM_table_cleanup(void);
 int X509_policy_check(X509_POLICY_TREE **ptree, int *pexplicit_policy,
     STACK_OF(X509) *certs,
     STACK_OF(ASN1_OBJECT) *policy_oids, unsigned int flags);
+
+void X509_policy_tree_free(X509_POLICY_TREE *tree);
+
+int X509_policy_tree_level_count(const X509_POLICY_TREE *tree);
+X509_POLICY_LEVEL *X509_policy_tree_get0_level(const X509_POLICY_TREE *tree,
+    int i);
+
+STACK_OF(X509_POLICY_NODE)
+*X509_policy_tree_get0_policies(const X509_POLICY_TREE *tree);
+
+STACK_OF(X509_POLICY_NODE)
+*X509_policy_tree_get0_user_policies(const X509_POLICY_TREE *tree);
+
+int X509_policy_level_node_count(X509_POLICY_LEVEL *level);
+
+X509_POLICY_NODE *X509_policy_level_get0_node(const X509_POLICY_LEVEL *level,
+    int i);
+
+const ASN1_OBJECT *X509_policy_node_get0_policy(const X509_POLICY_NODE *node);
+
+STACK_OF(POLICYQUALINFO)
+*X509_policy_node_get0_qualifiers(const X509_POLICY_NODE *node);
+const X509_POLICY_NODE *X509_policy_node_get0_parent(const X509_POLICY_NODE *node);
+
+#ifdef __cplusplus
+}
+#endif
+#endif
+TACK_OF(ASN1_OBJECT) *policy_oids, unsigned int flags);
 
 void X509_policy_tree_free(X509_POLICY_TREE *tree);
 

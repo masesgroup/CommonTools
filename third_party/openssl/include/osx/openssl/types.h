@@ -248,3 +248,14 @@ typedef struct ossl_self_test_st OSSL_SELF_TEST;
 #endif
 
 #endif /* OPENSSL_TYPES_H */
+ncoder_ctx_st OSSL_ENCODER_CTX;
+typedef struct ossl_decoder_st OSSL_DECODER;
+typedef struct ossl_decoder_ctx_st OSSL_DECODER_CTX;
+
+typedef struct ossl_self_test_st OSSL_SELF_TEST;
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* OPENSSL_TYPES_H */

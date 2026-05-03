@@ -115,3 +115,13 @@ void Camellia_ctr128_encrypt(const unsigned char *in, unsigned char *out,
 #endif
 
 #endif
+count_buf[CAMELLIA_BLOCK_SIZE],
+    unsigned int *num);
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+#endif
+
+#endif

@@ -34,3 +34,7 @@
 
 #endif
 #endif
+OT_SUPPORTED 108
+
+#endif
+#endif

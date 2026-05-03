@@ -1220,3 +1220,29 @@ struct tls_session_ticket_ext_st {
 }
 #endif
 #endif
+: "client write key", in hex for EBCDIC compatibility */
+#define TLS_MD_CLIENT_WRITE_KEY_CONST "\x63\x6c\x69\x65\x6e\x74\x20\x77\x72\x69\x74\x65\x20\x6b\x65\x79"
+#define TLS_MD_CLIENT_WRITE_KEY_CONST_SIZE 16
+/* ASCII: "server write key", in hex for EBCDIC compatibility */
+#define TLS_MD_SERVER_WRITE_KEY_CONST "\x73\x65\x72\x76\x65\x72\x20\x77\x72\x69\x74\x65\x20\x6b\x65\x79"
+#define TLS_MD_SERVER_WRITE_KEY_CONST_SIZE 16
+/* ASCII: "IV block", in hex for EBCDIC compatibility */
+#define TLS_MD_IV_BLOCK_CONST "\x49\x56\x20\x62\x6c\x6f\x63\x6b"
+#define TLS_MD_IV_BLOCK_CONST_SIZE 8
+/* ASCII: "master secret", in hex for EBCDIC compatibility */
+#define TLS_MD_MASTER_SECRET_CONST "\x6d\x61\x73\x74\x65\x72\x20\x73\x65\x63\x72\x65\x74"
+#define TLS_MD_MASTER_SECRET_CONST_SIZE 13
+/* ASCII: "extended master secret", in hex for EBCDIC compatibility */
+#define TLS_MD_EXTENDED_MASTER_SECRET_CONST "\x65\x78\x74\x65\x6e\x64\x65\x64\x20\x6d\x61\x73\x74\x65\x72\x20\x73\x65\x63\x72\x65\x74"
+#define TLS_MD_EXTENDED_MASTER_SECRET_CONST_SIZE 22
+
+/* TLS Session Ticket extension struct */
+struct tls_session_ticket_ext_st {
+    unsigned short length;
+    void *data;
+};
+
+#ifdef __cplusplus
+}
+#endif
+#endif

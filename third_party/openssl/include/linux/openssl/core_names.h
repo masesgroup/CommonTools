@@ -586,3 +586,22 @@ extern "C" {
 #endif
 
 #endif
+st-entropy"
+# define OSSL_SKEY_PARAM_KEY_LENGTH "key-length"
+# define OSSL_SKEY_PARAM_RAW_BYTES "raw-bytes"
+# define OSSL_STORE_PARAM_ALIAS "alias"
+# define OSSL_STORE_PARAM_DIGEST "digest"
+# define OSSL_STORE_PARAM_EXPECT "expect"
+# define OSSL_STORE_PARAM_FINGERPRINT "fingerprint"
+# define OSSL_STORE_PARAM_INPUT_TYPE "input-type"
+# define OSSL_STORE_PARAM_ISSUER "name"
+# define OSSL_STORE_PARAM_PROPERTIES "properties"
+# define OSSL_STORE_PARAM_SERIAL "serial"
+# define OSSL_STORE_PARAM_SUBJECT "subject"
+/* clang-format on */
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

@@ -522,3 +522,20 @@ int CMS_RecipientInfo_kemri_set_ukm(CMS_RecipientInfo *ri,
 #endif
 #endif
 #endif
+;
+EVP_CIPHER_CTX *CMS_RecipientInfo_kemri_get0_ctx(CMS_RecipientInfo *ri);
+X509_ALGOR *CMS_RecipientInfo_kemri_get0_kdf_alg(CMS_RecipientInfo *ri);
+int CMS_RecipientInfo_kemri_set_ukm(CMS_RecipientInfo *ri,
+    const unsigned char *ukm,
+    int ukmLength);
+
+/* Backward compatibility for spelling errors. */
+#define CMS_R_UNKNOWN_DIGEST_ALGORITM CMS_R_UNKNOWN_DIGEST_ALGORITHM
+#define CMS_R_UNSUPPORTED_RECPIENTINFO_TYPE \
+    CMS_R_UNSUPPORTED_RECIPIENTINFO_TYPE
+
+#ifdef __cplusplus
+}
+#endif
+#endif
+#endif

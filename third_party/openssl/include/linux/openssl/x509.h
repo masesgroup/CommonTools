@@ -185,17 +185,7 @@ SKM_DEFINE_STACK_OF_INTERNAL(X509_CRL, X509_CRL, X509_CRL)
 #define X509v3_KU_ENCIPHER_ONLY 0x0001 /* (7) */
 #define X509v3_KU_DECIPHER_ONLY 0x8000 /* (8) */
 #ifndef OPENSSL_NO_DEPRECATED_3_4
-#define X509v3_KU_UNDEF 0xffff /* vestigial, not used */
-#endif
-
-struct X509_algor_st {
-    ASN1_OBJECT *algorithm;
-    ASN1_TYPE *parameter;
-} /* X509_ALGOR */;
-
-typedef STACK_OF(X509_ALGOR) X509_ALGORS;
-
-typedef struct X509_val_st {
+#define X509v3_KU_UNDEF 0xfstruct X509_val_st {
     ASN1_TIME *notBefore;
     ASN1_TIME *notAfter;
 } X509_VAL;
@@ -1268,6 +1258,39 @@ DECLARE_ASN1_FUNCTIONS(PKCS8_PRIV_KEY_INFO)
 
 EVP_PKEY *EVP_PKCS82PKEY(const PKCS8_PRIV_KEY_INFO *p8);
 EVP_PKEY *EVP_PKCS82PKEY_ex(const PKCS8_PRIV_KEY_INFO *p8, OSSL_LIB_CTX *libctx,
+    const char *propq);
+PKCS8_PRIV_KEY_INFO *EVP_PKEY2PKCS8(const EVP_PKEY *pkey);
+
+int PKCS8_pkey_set0(PKCS8_PRIV_KEY_INFO *priv, ASN1_OBJECT *aobj,
+    int version, int ptype, void *pval,
+    unsigned char *penc, int penclen);
+int PKCS8_pkey_get0(const ASN1_OBJECT **ppkalg,
+    const unsigned char **pk, int *ppklen,
+    const X509_ALGOR **pa, const PKCS8_PRIV_KEY_INFO *p8);
+
+const STACK_OF(X509_ATTRIBUTE) *
+PKCS8_pkey_get0_attrs(const PKCS8_PRIV_KEY_INFO *p8);
+int PKCS8_pkey_add1_attr(PKCS8_PRIV_KEY_INFO *p8, X509_ATTRIBUTE *attr);
+int PKCS8_pkey_add1_attr_by_NID(PKCS8_PRIV_KEY_INFO *p8, int nid, int type,
+    const unsigned char *bytes, int len);
+int PKCS8_pkey_add1_attr_by_OBJ(PKCS8_PRIV_KEY_INFO *p8, const ASN1_OBJECT *obj,
+    int type, const unsigned char *bytes, int len);
+
+void X509_PUBKEY_set0_public_key(X509_PUBKEY *pub,
+    unsigned char *penc, int penclen);
+int X509_PUBKEY_set0_param(X509_PUBKEY *pub, ASN1_OBJECT *aobj,
+    int ptype, void *pval,
+    unsigned char *penc, int penclen);
+int X509_PUBKEY_get0_param(ASN1_OBJECT **ppkalg,
+    const unsigned char **pk, int *ppklen,
+    X509_ALGOR **pa, const X509_PUBKEY *pub);
+int X509_PUBKEY_eq(const X509_PUBKEY *a, const X509_PUBKEY *b);
+
+#ifdef __cplusplus
+}
+#endif
+#endif
+L_LIB_CTX *libctx,
     const char *propq);
 PKCS8_PRIV_KEY_INFO *EVP_PKEY2PKCS8(const EVP_PKEY *pkey);
 

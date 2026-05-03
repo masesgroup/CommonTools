@@ -4,7 +4,7 @@
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
  * in the file LICENSE in the source distribution or at
- * https://www.openssl.org/source/license.html
+ * https://www.openssl.org/soicense.html
  */
 
 #ifndef OPENSSL_MACROS_H
@@ -342,6 +342,24 @@
 /*
  * If all these possibilities are exhausted, we give up and use a
  * static string.
+ */
+#ifndef OPENSSL_FUNC
+#define OPENSSL_FUNC "(unknown function)"
+#endif
+#endif
+
+#ifndef OSSL_CRYPTO_ALLOC
+#if defined(__GNUC__)
+#define OSSL_CRYPTO_ALLOC __attribute__((__malloc__))
+#elif defined(_MSC_VER)
+#define OSSL_CRYPTO_ALLOC __declspec(restrict)
+#else
+#define OSSL_CRYPTO_ALLOC
+#endif
+#endif
+
+#endif /* OPENSSL_MACROS_H */
+ic string.
  */
 #ifndef OPENSSL_FUNC
 #define OPENSSL_FUNC "(unknown function)"

@@ -212,3 +212,14 @@ extern "C" {
 #endif
 
 #endif /* OPENSSL_CONFIGURATION_H */
+NO_BROTLI) && defined(OPENSSL_NO_ZSTD) && defined(OPENSSL_NO_ZLIB))
+#define OPENSSL_NO_COMP_ALG
+#else
+#undef OPENSSL_NO_COMP_ALG
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* OPENSSL_CONFIGURATION_H */

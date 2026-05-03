@@ -86,7 +86,7 @@ SKM_DEFINE_STACK_OF_INTERNAL(CMS_RecipientEncryptedKey, CMS_RecipientEncryptedKe
 #define sk_CMS_RecipientEncryptedKey_push(sk, ptr) OPENSSL_sk_push(ossl_check_CMS_RecipientEncryptedKey_sk_type(sk), ossl_check_CMS_RecipientEncryptedKey_type(ptr))
 #define sk_CMS_RecipientEncryptedKey_unshift(sk, ptr) OPENSSL_sk_unshift(ossl_check_CMS_RecipientEncryptedKey_sk_type(sk), ossl_check_CMS_RecipientEncryptedKey_type(ptr))
 #define sk_CMS_RecipientEncryptedKey_pop(sk) ((CMS_RecipientEncryptedKey *)OPENSSL_sk_pop(ossl_check_CMS_RecipientEncryptedKey_sk_type(sk)))
-#define sk_CMS_RecipientEncryptedKey_shift(sk) ((CMS_RecipientEncryptedKey *)OPENSSL_sk_shift(ossl_check_CMS_RecipientEncryptedKey_sk_type(sk)))
+shift(ossl_check_CMS_RecipientEncryptedKey_sk_type(sk)))
 #define sk_CMS_RecipientEncryptedKey_pop_free(sk, freefunc) OPENSSL_sk_pop_free(ossl_check_CMS_RecipientEncryptedKey_sk_type(sk), ossl_check_CMS_RecipientEncryptedKey_freefunc_type(freefunc))
 #define sk_CMS_RecipientEncryptedKey_insert(sk, ptr, idx) OPENSSL_sk_insert(ossl_check_CMS_RecipientEncryptedKey_sk_type(sk), ossl_check_CMS_RecipientEncryptedKey_type(ptr), (idx))
 #define sk_CMS_RecipientEncryptedKey_set(sk, idx, ptr) ((CMS_RecipientEncryptedKey *)OPENSSL_sk_set(ossl_check_CMS_RecipientEncryptedKey_sk_type(sk), (idx), ossl_check_CMS_RecipientEncryptedKey_type(ptr)))
@@ -506,6 +506,23 @@ int CMS_SharedInfo_encode(unsigned char **pder, X509_ALGOR *kekalg,
 
 int CMS_RecipientInfo_kemri_cert_cmp(CMS_RecipientInfo *ri, X509 *cert);
 int CMS_RecipientInfo_kemri_set0_pkey(CMS_RecipientInfo *ri, EVP_PKEY *pk);
+EVP_CIPHER_CTX *CMS_RecipientInfo_kemri_get0_ctx(CMS_RecipientInfo *ri);
+X509_ALGOR *CMS_RecipientInfo_kemri_get0_kdf_alg(CMS_RecipientInfo *ri);
+int CMS_RecipientInfo_kemri_set_ukm(CMS_RecipientInfo *ri,
+    const unsigned char *ukm,
+    int ukmLength);
+
+/* Backward compatibility for spelling errors. */
+#define CMS_R_UNKNOWN_DIGEST_ALGORITM CMS_R_UNKNOWN_DIGEST_ALGORITHM
+#define CMS_R_UNSUPPORTED_RECPIENTINFO_TYPE \
+    CMS_R_UNSUPPORTED_RECIPIENTINFO_TYPE
+
+#ifdef __cplusplus
+}
+#endif
+#endif
+#endif
+;
 EVP_CIPHER_CTX *CMS_RecipientInfo_kemri_get0_ctx(CMS_RecipientInfo *ri);
 X509_ALGOR *CMS_RecipientInfo_kemri_get0_kdf_alg(CMS_RecipientInfo *ri);
 int CMS_RecipientInfo_kemri_set_ukm(CMS_RecipientInfo *ri,

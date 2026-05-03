@@ -515,3 +515,26 @@ void OSSL_ERR_STATE_free(ERR_STATE *es);
 #endif
 
 #endif
+ED_3_0
+OSSL_DEPRECATEDIN_3_0 ERR_STATE *ERR_get_state(void);
+#endif
+
+int ERR_get_next_error_library(void);
+
+int ERR_set_mark(void);
+int ERR_pop_to_mark(void);
+int ERR_clear_last_mark(void);
+int ERR_count_to_mark(void);
+int ERR_pop(void);
+
+ERR_STATE *OSSL_ERR_STATE_new(void);
+void OSSL_ERR_STATE_save(ERR_STATE *es);
+void OSSL_ERR_STATE_save_to_mark(ERR_STATE *es);
+void OSSL_ERR_STATE_restore(const ERR_STATE *es);
+void OSSL_ERR_STATE_free(ERR_STATE *es);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

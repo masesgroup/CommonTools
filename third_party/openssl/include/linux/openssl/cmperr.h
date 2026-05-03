@@ -130,3 +130,9 @@
 
 #endif
 #endif
+fine CMP_R_WRONG_PBM_VALUE 155
+#define CMP_R_WRONG_RP_COMPONENT_COUNT 188
+#define CMP_R_WRONG_SERIAL_IN_RP 173
+
+#endif
+#endif

@@ -89,12 +89,7 @@ extern "C" {
 /* clang-format off */
 # define OPENSSL_VERSION_STR "3.6.2"
 /* clang-format on */
-/* clang-format off */
-# define OPENSSL_FULL_VERSION_STR "3.6.2"
-/* clang-format on */
-
-/*
- * SECTION 3: ADDITIONAL METADATA
+/* clang-format ofTIONAL METADATA
  *
  * These strings are defined separately to allow them to be parsable.
  */
@@ -124,6 +119,12 @@ extern "C" {
 #endif
 
 #include <openssl/macros.h>
+#ifndef OPENSSL_NO_DEPRECATED_3_0
+#define HEADER_OPENSSLV_H
+#endif
+
+#endif /* OPENSSL_OPENSSLV_H */
+clude <openssl/macros.h>
 #ifndef OPENSSL_NO_DEPRECATED_3_0
 #define HEADER_OPENSSLV_H
 #endif

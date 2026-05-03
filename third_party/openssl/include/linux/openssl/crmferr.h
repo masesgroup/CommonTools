@@ -53,3 +53,7 @@
 
 #endif
 #endif
+ CRMF_R_UNSUPPORTED_POPO_METHOD 116
+
+#endif
+#endif
