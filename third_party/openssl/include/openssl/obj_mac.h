@@ -6693,3 +6693,129 @@
 #define NID_grasshopper_mac NID_kuznyechik_mac
 
 #endif /* OPENSSL_NO_DEPRECATED_3_0 */
+cg_tr_cat_CommonCriteria           OBJ_tcg_tr_category,25L
+
+#define SN_tcg_tr_cat_componentIdentifierV11            "tcg-tr-cat-componentIdentifierV11"
+#define LN_tcg_tr_cat_componentIdentifierV11            "Component Identifier V1.1 Trait Category"
+#define NID_tcg_tr_cat_componentIdentifierV11           1442
+#define OBJ_tcg_tr_cat_componentIdentifierV11           OBJ_tcg_tr_category,26L
+
+#define SN_tcg_tr_cat_FIPSLevel         "tcg-tr-cat-FIPSLevel"
+#define LN_tcg_tr_cat_FIPSLevel         "FIPS Level Trait Category"
+#define NID_tcg_tr_cat_FIPSLevel                1443
+#define OBJ_tcg_tr_cat_FIPSLevel                OBJ_tcg_tr_category,27L
+
+#define SN_tcg_tr_cat_ISO9000           "tcg-tr-cat-ISO9000"
+#define LN_tcg_tr_cat_ISO9000           "ISO 9000 Trait Category"
+#define NID_tcg_tr_cat_ISO9000          1444
+#define OBJ_tcg_tr_cat_ISO9000          OBJ_tcg_tr_category,28L
+
+#define SN_tcg_tr_cat_networkMAC                "tcg-tr-cat-networkMAC"
+#define LN_tcg_tr_cat_networkMAC                "Network MAC Trait Category"
+#define NID_tcg_tr_cat_networkMAC               1445
+#define OBJ_tcg_tr_cat_networkMAC               OBJ_tcg_tr_category,29L
+
+#define SN_tcg_tr_cat_attestationProtocol               "tcg-tr-cat-attestationProtocol"
+#define LN_tcg_tr_cat_attestationProtocol               "Attestation Protocol Trait Category"
+#define NID_tcg_tr_cat_attestationProtocol              1446
+#define OBJ_tcg_tr_cat_attestationProtocol              OBJ_tcg_tr_category,30L
+
+#define SN_tcg_tr_cat_PEN               "tcg-tr-cat-PEN"
+#define LN_tcg_tr_cat_PEN               "Private Enterprise Number Trait Category"
+#define NID_tcg_tr_cat_PEN              1447
+#define OBJ_tcg_tr_cat_PEN              OBJ_tcg_tr_category,31L
+
+#define SN_tcg_tr_cat_platformFirmwareCapabilities              "tcg-tr-cat-platformFirmwareCapabilities"
+#define LN_tcg_tr_cat_platformFirmwareCapabilities              "Platform Firmware Capabilities Trait Category"
+#define NID_tcg_tr_cat_platformFirmwareCapabilities             1448
+#define OBJ_tcg_tr_cat_platformFirmwareCapabilities             OBJ_tcg_tr_category,32L
+
+#define SN_tcg_tr_cat_platformHardwareCapabilities              "tcg-tr-cat-platformHardwareCapabilities"
+#define LN_tcg_tr_cat_platformHardwareCapabilities              "Platform Hardware Capabilities Trait Category"
+#define NID_tcg_tr_cat_platformHardwareCapabilities             1449
+#define OBJ_tcg_tr_cat_platformHardwareCapabilities             OBJ_tcg_tr_category,33L
+
+#define SN_tcg_tr_cat_platformFirmwareSignatureVerification             "tcg-tr-cat-platformFirmwareSignatureVerification"
+#define LN_tcg_tr_cat_platformFirmwareSignatureVerification             "Platform Firmware Signature Verification Trait Category"
+#define NID_tcg_tr_cat_platformFirmwareSignatureVerification            1450
+#define OBJ_tcg_tr_cat_platformFirmwareSignatureVerification            OBJ_tcg_tr_category,34L
+
+#define SN_tcg_tr_cat_platformFirmwareUpdateCompliance          "tcg-tr-cat-platformFirmwareUpdateCompliance"
+#define LN_tcg_tr_cat_platformFirmwareUpdateCompliance          "Platform Firmware Update Compliance Trait Category"
+#define NID_tcg_tr_cat_platformFirmwareUpdateCompliance         1451
+#define OBJ_tcg_tr_cat_platformFirmwareUpdateCompliance         OBJ_tcg_tr_category,35L
+
+#define SN_tcg_tr_cat_RTM               "tcg-tr-cat-RTM"
+#define LN_tcg_tr_cat_RTM               "Root of Trust of Measurement Trait Category"
+#define NID_tcg_tr_cat_RTM              1452
+#define OBJ_tcg_tr_cat_RTM              OBJ_tcg_tr_category,36L
+
+#define SN_tcg_tr_cat_PublicKey         "tcg-tr-cat-PublicKey"
+#define LN_tcg_tr_cat_PublicKey         "Public Key Trait Category"
+#define NID_tcg_tr_cat_PublicKey                1453
+#define OBJ_tcg_tr_cat_PublicKey                OBJ_tcg_tr_category,37L
+
+#define OBJ_nistKems            OBJ_nistAlgorithms,4L
+
+#define SN_ML_KEM_512           "id-alg-ml-kem-512"
+#define LN_ML_KEM_512           "ML-KEM-512"
+#define NID_ML_KEM_512          1454
+#define OBJ_ML_KEM_512          OBJ_nistKems,1L
+
+#define SN_ML_KEM_768           "id-alg-ml-kem-768"
+#define LN_ML_KEM_768           "ML-KEM-768"
+#define NID_ML_KEM_768          1455
+#define OBJ_ML_KEM_768          OBJ_nistKems,2L
+
+#define SN_ML_KEM_1024          "id-alg-ml-kem-1024"
+#define LN_ML_KEM_1024          "ML-KEM-1024"
+#define NID_ML_KEM_1024         1456
+#define OBJ_ML_KEM_1024         OBJ_nistKems,3L
+
+#endif /* OPENSSL_OBJ_MAC_H */
+
+#ifndef OPENSSL_NO_DEPRECATED_3_0
+
+#define SN_id_tc26_cipher_gostr3412_2015_magma_ctracpkm SN_magma_ctr_acpkm
+#define NID_id_tc26_cipher_gostr3412_2015_magma_ctracpkm NID_magma_ctr_acpkm
+#define OBJ_id_tc26_cipher_gostr3412_2015_magma_ctracpkm OBJ_magma_ctr_acpkm
+
+#define SN_id_tc26_cipher_gostr3412_2015_magma_ctracpkm_omac SN_magma_ctr_acpkm_omac
+#define NID_id_tc26_cipher_gostr3412_2015_magma_ctracpkm_omac NID_magma_ctr_acpkm_omac
+#define OBJ_id_tc26_cipher_gostr3412_2015_magma_ctracpkm_omac OBJ_magma_ctr_acpkm_omac
+
+#define SN_id_tc26_cipher_gostr3412_2015_kuznyechik_ctracpkm SN_kuznyechik_ctr_acpkm
+#define NID_id_tc26_cipher_gostr3412_2015_kuznyechik_ctracpkm NID_kuznyechik_ctr_acpkm
+#define OBJ_id_tc26_cipher_gostr3412_2015_kuznyechik_ctracpkm OBJ_kuznyechik_ctr_acpkm
+
+#define SN_id_tc26_cipher_gostr3412_2015_kuznyechik_ctracpkm_omac SN_kuznyechik_ctr_acpkm_omac
+#define NID_id_tc26_cipher_gostr3412_2015_kuznyechik_ctracpkm_omac NID_kuznyechik_ctr_acpkm_omac
+#define OBJ_id_tc26_cipher_gostr3412_2015_kuznyechik_ctracpkm_omac OBJ_kuznyechik_ctr_acpkm_omac
+
+#define SN_id_tc26_wrap_gostr3412_2015_magma_kexp15 SN_magma_kexp15
+#define NID_id_tc26_wrap_gostr3412_2015_magma_kexp15 NID_magma_kexp15
+#define OBJ_id_tc26_wrap_gostr3412_2015_magma_kexp15 OBJ_magma_kexp15
+
+#define SN_id_tc26_wrap_gostr3412_2015_kuznyechik_kexp15 SN_kuznyechik_kexp15
+#define NID_id_tc26_wrap_gostr3412_2015_kuznyechik_kexp15 NID_kuznyechik_kexp15
+#define OBJ_id_tc26_wrap_gostr3412_2015_kuznyechik_kexp15 OBJ_kuznyechik_kexp15
+
+#define SN_grasshopper_ecb SN_kuznyechik_ecb
+#define NID_grasshopper_ecb NID_kuznyechik_ecb
+
+#define SN_grasshopper_ctr SN_kuznyechik_ctr
+#define NID_grasshopper_ctr NID_kuznyechik_ctr
+
+#define SN_grasshopper_ofb SN_kuznyechik_ofb
+#define NID_grasshopper_ofb NID_kuznyechik_ofb
+
+#define SN_grasshopper_cbc SN_kuznyechik_cbc
+#define NID_grasshopper_cbc NID_kuznyechik_cbc
+
+#define SN_grasshopper_cfb SN_kuznyechik_cfb
+#define NID_grasshopper_cfb NID_kuznyechik_cfb
+
+#define SN_grasshopper_mac SN_kuznyechik_mac
+#define NID_grasshopper_mac NID_kuznyechik_mac
+
+#endif /* OPENSSL_NO_DEPRECATED_3_0 */
