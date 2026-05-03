@@ -125,7 +125,7 @@ jobs:
             --x-buildtrees-root=${{ runner.temp }}/vcpkg-buildtrees
 
       - name: Collect libs (Windows)
-        if: matrix.platform == 'windows'
+        if: matrix.platform == 'windows' || matrix.platform == 'osx'
         shell: pwsh
         run: |
           $dst = "third_party/openssl/${{ matrix.platform }}/${{ matrix.arch }}"
