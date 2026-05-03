@@ -180,11 +180,19 @@ jobs:
           mkdir -p "$ARCH_INC"
           cp "$SRC/include/openssl/configuration.h" "$ARCH_INC/"
 
-      - name: Upload partial artifact
-        uses: actions/upload-artifact@v7
+      - name: Upload libs artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: openssl-${{ matrix.platform }}-${{ matrix.arch }}
-          path: third_party/openssl/
+          name: openssl-libs-${{ matrix.platform }}-${{ matrix.arch }}
+          path: third_party/openssl/${{ matrix.platform }}/
+          retention-days: 1
+          compression-level: 9
+
+      - name: Upload headers artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: openssl-headers-${{ matrix.platform }}
+          path: third_party/openssl/include/
           retention-days: 1
           compression-level: 9
 
@@ -231,6 +239,29 @@ jobs:
             exit 1
           fi
           echo "All headers OK"
+
+      - name: Verify binary integrity
+        shell: bash
+        run: |
+          ERRORS=0
+          for platform in linux osx; do
+            for arch in x64 x86 arm arm64; do
+              for lib in libssl libcrypto; do
+                f="third_party/openssl/$platform/$arch/$lib.a"
+                if [ -f "$f" ]; then
+                  if ! ar t "$f" > /dev/null 2>&1; then
+                    echo "CORRUPTED: $f"
+                    ERRORS=$((ERRORS + 1))
+                  fi
+                fi
+              done
+            done
+          done
+          if [ $ERRORS -gt 0 ]; then
+            echo "Found $ERRORS corrupted libraries — aborting PR"
+            exit 1
+          fi
+          echo "All libraries OK"
 
       - name: Open PR
         uses: peter-evans/create-pull-request@v8
