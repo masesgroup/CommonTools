@@ -8,22 +8,35 @@ on:
         required: true
         default: '3.4'
 
+env:
+  VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+
 jobs:
   build:
     strategy:
       fail-fast: false
       matrix:
         include:
+          # Windows static-md — C++/CLI .NET Framework (no ARM64)
           - os: windows-latest
             triplet: x86-windows-static-md
             arch: x86
-            platform: windows
+            platform: windows-md
           - os: windows-latest
             triplet: x64-windows-static-md
             arch: x64
+            platform: windows-md
+          # Windows static — CMake native
+          - os: windows-latest
+            triplet: x86-windows-static
+            arch: x86
             platform: windows
           - os: windows-latest
-            triplet: arm64-windows-static-md
+            triplet: x64-windows-static
+            arch: x64
+            platform: windows
+          - os: windows-latest
+            triplet: arm64-windows-static
             arch: arm64
             platform: windows
           - os: ubuntu-latest
@@ -50,12 +63,21 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
+
+      - name: Export GHA cache environment variables
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgGitCommitId: 'a42af01b72c28a8e1d7b48107b33e4f286a55ef6'
+        env:
+          VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
 
       - name: Create static overlay triplets
         if: matrix.platform != 'windows'
