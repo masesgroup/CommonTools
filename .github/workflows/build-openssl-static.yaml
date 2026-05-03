@@ -86,16 +86,23 @@ jobs:
         with:
           vcpkgGitCommitId: ${{ steps.vcpkg-commit.outputs.sha }}
 
-      # Overlay triplet — solo Linux e macOS, il nome deve corrispondere al triplet
       - name: Create static overlay triplets
         if: matrix.platform == 'linux' || matrix.platform == 'osx'
         shell: bash
         run: |
           mkdir -p ${{ github.workspace }}/triplets
-          cat > ${{ github.workspace }}/triplets/${{ matrix.triplet }}.cmake << 'EOF'
+          
+          if [ "${{ matrix.platform }}" = "osx" ]; then
+            SYSTEM_NAME="Darwin"
+          else
+            SYSTEM_NAME="Linux"
+          fi
+          
+          cat > ${{ github.workspace }}/triplets/${{ matrix.triplet }}.cmake << EOF
           set(VCPKG_TARGET_ARCHITECTURE ${{ matrix.arch }})
           set(VCPKG_CRT_LINKAGE dynamic)
           set(VCPKG_LIBRARY_LINKAGE static)
+          set(VCPKG_CMAKE_SYSTEM_NAME $SYSTEM_NAME)
           EOF
 
       - name: Install cross-compile toolchain (Linux ARM)
