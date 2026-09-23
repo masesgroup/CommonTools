@@ -67,6 +67,10 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Clean stale output before build
+        shell: bash
+        run: rm -rf third_party/openssl
+
       - name: Export GHA cache environment variables
         uses: actions/github-script@v9
         with:
