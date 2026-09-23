@@ -68,6 +68,9 @@ extern "C" {
 # ifndef OPENSSL_NO_DOCS
 #  define OPENSSL_NO_DOCS
 # endif
+# ifndef OPENSSL_NO_EC_NISTP_64_GCC_128
+#  define OPENSSL_NO_EC_NISTP_64_GCC_128
+# endif
 # ifndef OPENSSL_NO_EGD
 #  define OPENSSL_NO_EGD
 # endif
@@ -183,17 +186,17 @@ extern "C" {
  */
 #if !defined(OPENSSL_SYS_UEFI)
     /* clang-format off */
-#  undef BN_LLONG
+#  define BN_LLONG
     /* clang-format on */
     /* Only one for the following should be defined */
     /* clang-format off */
-#  define SIXTY_FOUR_BIT_LONG
+#  undef SIXTY_FOUR_BIT_LONG
     /* clang-format on */
     /* clang-format off */
 #  undef SIXTY_FOUR_BIT
     /* clang-format on */
     /* clang-format off */
-#  undef THIRTY_TWO_BIT
+#  define THIRTY_TWO_BIT
 /* clang-format on */
 #endif
 
