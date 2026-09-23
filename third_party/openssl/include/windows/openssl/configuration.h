@@ -28,6 +28,9 @@ extern "C" {
  */
 
 /* clang-format off */
+# ifndef OPENSSL_SYS_WIN64A
+#  define OPENSSL_SYS_WIN64A 1
+# endif
 # define OPENSSL_CONFIGURED_API 30600
 # ifndef OPENSSL_RAND_SEED_OS
 #  define OPENSSL_RAND_SEED_OS
@@ -201,7 +204,7 @@ extern "C" {
 #endif
 
 /* clang-format off */
-# define RC4_INT unsigned char
+# define RC4_INT unsigned int
 /* clang-format on */
 
 #if defined(OPENSSL_NO_COMP) || (defined(OPENSSL_NO_BROTLI) && defined(OPENSSL_NO_ZSTD) && defined(OPENSSL_NO_ZLIB))
