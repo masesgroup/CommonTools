@@ -215,9 +215,3 @@ extern "C" {
 #endif
 
 #endif /* OPENSSL_CONFIGURATION_H */
-def __cplusplus
-}
-#endif
-
-#endif /* OPENSSL_CONFIGURATION_H */
-
