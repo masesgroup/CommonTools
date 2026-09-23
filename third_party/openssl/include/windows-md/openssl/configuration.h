@@ -28,8 +28,8 @@ extern "C" {
  */
 
 /* clang-format off */
-# ifndef OPENSSL_SYS_WIN64A
-#  define OPENSSL_SYS_WIN64A 1
+# ifndef OPENSSL_SYS_WIN32
+#  define OPENSSL_SYS_WIN32 1
 # endif
 # define OPENSSL_CONFIGURED_API 30600
 # ifndef OPENSSL_RAND_SEED_OS
@@ -189,17 +189,17 @@ extern "C" {
  */
 #if !defined(OPENSSL_SYS_UEFI)
     /* clang-format off */
-#  undef BN_LLONG
+#  define BN_LLONG
     /* clang-format on */
     /* Only one for the following should be defined */
     /* clang-format off */
 #  undef SIXTY_FOUR_BIT_LONG
     /* clang-format on */
     /* clang-format off */
-#  define SIXTY_FOUR_BIT
+#  undef SIXTY_FOUR_BIT
     /* clang-format on */
     /* clang-format off */
-#  undef THIRTY_TWO_BIT
+#  define THIRTY_TWO_BIT
 /* clang-format on */
 #endif
 
