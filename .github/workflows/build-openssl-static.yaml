@@ -241,9 +241,15 @@ jobs:
               for lib in libssl libcrypto; do
                 f="third_party/openssl/$platform/$arch/$lib.a"
                 if [ -f "$f" ]; then
-                  if ! ar t "$f" > /dev/null 2>&1; then
-                    echo "CORRUPTED: $f"
-                    ERRORS=$((ERRORS + 1))
+                  if ! ar t "$f" > /tmp/ar_out.txt 2>&1; then
+                      echo "CORRUPTED: $f"
+                      echo "--- ar error ---"
+                      cat /tmp/ar_out.txt
+                      echo "--- file info ---"
+                      ls -la "$f"
+                      file "$f"
+                      xxd "$f" | head -5
+                      ERRORS=$((ERRORS + 1))
                   fi
                 fi
               done
