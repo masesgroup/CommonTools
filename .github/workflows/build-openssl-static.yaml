@@ -40,15 +40,15 @@ jobs:
             arch: arm64
             platform: windows
           # Linux
-          - os: ubuntu-latest
+          - os: ubuntu-22.04
             triplet: x64-linux
             arch: x64
             platform: linux
-          - os: ubuntu-latest
+          - os: ubuntu-22.04
             triplet: arm64-linux
             arch: arm64
             platform: linux
-          - os: ubuntu-latest
+          - os: ubuntu-22.04
             triplet: arm-linux
             arch: arm
             platform: linux
